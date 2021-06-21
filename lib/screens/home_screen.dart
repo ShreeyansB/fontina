@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _railIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
               flex: 5,
               child: Container(
-                color: Colors.blue,
               )),
         ],
       )),

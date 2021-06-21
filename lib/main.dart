@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: MyTheme.bgColorLight,
           primaryColor: MyTheme.primaryColorLight,
           accentColor: MyTheme.primaryColorLight,
+          canvasColor: MyTheme.bgColorLight,
           textTheme: GoogleFonts.karlaTextTheme(Theme.of(context)
               .textTheme
               .apply(bodyColor: MyTheme.textColorLight))),

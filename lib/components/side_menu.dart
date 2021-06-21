@@ -17,9 +17,9 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   @override
-
   Widget build(BuildContext context) {
     return Drawer(
+      elevation: 2.4,
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -35,42 +35,36 @@ class _SideMenuState extends State<SideMenu> {
               svgSrc: "assets/svg/home.svg",
               onPress: () => selected.value = 0,
               index: 0,
-              
             ),
             DrawerTile(
               title: "Search",
               svgSrc: "assets/svg/search.svg",
               onPress: () => selected.value = 1,
               index: 1,
-              
             ),
             DrawerTile(
               title: "Favorite",
               svgSrc: "assets/svg/fav.svg",
               onPress: () => selected.value = 2,
               index: 2,
-              
             ),
             DrawerTile(
               title: "Generate",
               svgSrc: "assets/svg/gen.svg",
               onPress: () => selected.value = 3,
               index: 3,
-              
             ),
             DrawerTile(
               title: "Details",
               svgSrc: "assets/svg/details.svg",
               onPress: () => selected.value = 4,
               index: 4,
-              
             ),
             DrawerTile(
               title: "Settings",
               svgSrc: "assets/svg/settings.svg",
               onPress: () => selected.value = 5,
               index: 5,
-              
             ),
           ],
         ),
@@ -94,33 +88,80 @@ class DrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-          width: 150,
-          child: ListTile(
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 3,
-              horizontal: 20,
-            ),
-            onTap: onPress,
-            horizontalTitleGap: 0,
-            leading: SvgPicture.asset(
-              svgSrc,
-              color: selected.value == index
-                  ? MyTheme.primaryColorLight
-                  : MyTheme.textColorLight,
-              height: 23,
-            ),
-            title: Text(
-              title,
-              maxLines: 1,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: selected.value == index
-                      ? MyTheme.primaryColorLight
-                      : MyTheme.textColorLight,
-                  fontSize: 17.0),
-            ),
-          ),
+    return Container(
+        width: 150,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth >= 150) {
+              return Obx(() => ListTile(
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 3,
+                      horizontal: 20,
+                    ),
+                    onTap: onPress,
+                    horizontalTitleGap: 0,
+                    leading: SvgPicture.asset(
+                      svgSrc,
+                      color: selected.value == index
+                          ? MyTheme.primaryColorLight
+                          : MyTheme.textColorLight,
+                      height: 23,
+                    ),
+                    title: Text(
+                      title,
+                      maxLines: 1,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: selected.value == index
+                              ? MyTheme.primaryColorLight
+                              : MyTheme.textColorLight,
+                          fontSize: 17.0),
+                    ),
+                  ));
+            } else {
+              return Obx(() => ListTile(
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 3,
+                      horizontal: 20,
+                    ),
+                    onTap: onPress,
+                    horizontalTitleGap: 0,
+                    title: SvgPicture.asset(
+                      svgSrc,
+                      color: selected.value == index
+                          ? MyTheme.primaryColorLight
+                          : MyTheme.textColorLight,
+                      height: 25,
+                    ),
+                  ));
+            }
+          },
         ));
   }
 }
+
+// ListTile(
+//             contentPadding: EdgeInsets.symmetric(
+//               vertical: 3,
+//               horizontal: 20,
+//             ),
+//             onTap: onPress,
+//             horizontalTitleGap: 0,
+//             leading: SvgPicture.asset(
+//               svgSrc,
+//               color: selected.value == index
+//                   ? MyTheme.primaryColorLight
+//                   : MyTheme.textColorLight,
+//               height: 23,
+//             ),
+//             title: Text(
+//               title,
+//               maxLines: 1,
+//               style: TextStyle(
+//                   fontWeight: FontWeight.w600,
+//                   color: selected.value == index
+//                       ? MyTheme.primaryColorLight
+//                       : MyTheme.textColorLight,
+//                   fontSize: 17.0),
+//             ),
+//           ),
