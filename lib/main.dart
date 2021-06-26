@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fontina/screens/home_screen.dart';
+import 'package:fontina/screens/base_screen.dart';
 import 'package:get/get.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.karlaTextTheme(Theme.of(context)
               .textTheme
               .apply(bodyColor: MyTheme.textColorLight))),
-              home: HomeScreen(),
+              home: BaseScreen(),
     );
   }
 }

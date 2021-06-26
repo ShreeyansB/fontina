@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({ Key? key }) : super(key: key);
+class FavScreen extends StatelessWidget {
+  const FavScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("Home"),
+      child: Text("Fav"),
     );
   }
 }

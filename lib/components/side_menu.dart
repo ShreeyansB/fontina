@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fontina/dependencies/side_navigation_dep.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 
@@ -33,37 +34,55 @@ class _SideMenuState extends State<SideMenu> {
             DrawerTile(
               title: "Home",
               svgSrc: "assets/svg/home.svg",
-              onPress: () => selected.value = 0,
+              onPress: () {
+                selected.value = 0;
+                Get.find<SideMenuController>().switchScreen(0);
+              },
               index: 0,
             ),
             DrawerTile(
               title: "Search",
               svgSrc: "assets/svg/search.svg",
-              onPress: () => selected.value = 1,
+              onPress: () {
+                selected.value = 1;
+                Get.find<SideMenuController>().switchScreen(1);
+              },
               index: 1,
             ),
             DrawerTile(
               title: "Favorite",
               svgSrc: "assets/svg/fav.svg",
-              onPress: () => selected.value = 2,
+              onPress: () {
+                selected.value = 2;
+                Get.find<SideMenuController>().switchScreen(2);
+              },
               index: 2,
             ),
             DrawerTile(
               title: "Generate",
               svgSrc: "assets/svg/gen.svg",
-              onPress: () => selected.value = 3,
+              onPress: () {
+                selected.value = 3;
+                Get.find<SideMenuController>().switchScreen(3);
+              },
               index: 3,
             ),
             DrawerTile(
               title: "Details",
               svgSrc: "assets/svg/details.svg",
-              onPress: () => selected.value = 4,
+              onPress: () {
+                selected.value = 4;
+                Get.find<SideMenuController>().switchScreen(4);
+              },
               index: 4,
             ),
             DrawerTile(
               title: "Settings",
               svgSrc: "assets/svg/settings.svg",
-              onPress: () => selected.value = 5,
+              onPress: () {
+                selected.value = 5;
+                Get.find<SideMenuController>().switchScreen(5);
+              },
               index: 5,
             ),
           ],
