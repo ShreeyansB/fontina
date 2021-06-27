@@ -22,70 +22,67 @@ class _SideMenuState extends State<SideMenu> {
     return Drawer(
       elevation: 2.4,
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            DrawerHeader(
-              child: Image.asset(
-                "assets/images/logo.png",
-                width: 65,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 30.0),
+          child: Column(
+            children: [
+              DrawerHeader(
+                child: Image.asset(
+                  "assets/images/logo.png",
+                  width: 65,
+                ),
+                padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
               ),
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
-            ),
-            DrawerTile(
-              title: "Home",
-              svgSrc: "assets/svg/home.svg",
-              onPress: () {
-                selected.value = 0;
-                Get.find<SideMenuController>().switchScreen(0);
-              },
-              index: 0,
-            ),
-            DrawerTile(
-              title: "Search",
-              svgSrc: "assets/svg/search.svg",
-              onPress: () {
-                selected.value = 1;
-                Get.find<SideMenuController>().switchScreen(1);
-              },
-              index: 1,
-            ),
-            DrawerTile(
-              title: "Favorite",
-              svgSrc: "assets/svg/fav.svg",
-              onPress: () {
-                selected.value = 2;
-                Get.find<SideMenuController>().switchScreen(2);
-              },
-              index: 2,
-            ),
-            DrawerTile(
-              title: "Generate",
-              svgSrc: "assets/svg/gen.svg",
-              onPress: () {
-                selected.value = 3;
-                Get.find<SideMenuController>().switchScreen(3);
-              },
-              index: 3,
-            ),
-            DrawerTile(
-              title: "Details",
-              svgSrc: "assets/svg/details.svg",
-              onPress: () {
-                selected.value = 4;
-                Get.find<SideMenuController>().switchScreen(4);
-              },
-              index: 4,
-            ),
-            DrawerTile(
-              title: "Settings",
-              svgSrc: "assets/svg/settings.svg",
-              onPress: () {
-                selected.value = 5;
-                Get.find<SideMenuController>().switchScreen(5);
-              },
-              index: 5,
-            ),
-          ],
+              DrawerTile(
+                title: "Home",
+                svgSrc: "assets/svg/home.svg",
+                onPress: () {
+                  Get.find<SideMenuController>().switchScreen(0);
+                },
+                index: 0,
+              ),
+              DrawerTile(
+                title: "Search",
+                svgSrc: "assets/svg/search.svg",
+                onPress: () {
+                  Get.find<SideMenuController>().switchScreen(1);
+                },
+                index: 1,
+              ),
+              DrawerTile(
+                title: "Favorite",
+                svgSrc: "assets/svg/fav.svg",
+                onPress: () {
+                  Get.find<SideMenuController>().switchScreen(2);
+                },
+                index: 2,
+              ),
+              DrawerTile(
+                title: "Generate",
+                svgSrc: "assets/svg/gen.svg",
+                onPress: () {
+                  Get.find<SideMenuController>().switchScreen(3);
+                },
+                index: 3,
+              ),
+              DrawerTile(
+                title: "Details",
+                svgSrc: "assets/svg/details.svg",
+                onPress: () {
+                  Get.find<SideMenuController>().switchScreen(4);
+                },
+                index: 4,
+              ),
+              DrawerTile(
+                title: "Settings",
+                svgSrc: "assets/svg/settings.svg",
+                onPress: () {
+                  Get.find<SideMenuController>().switchScreen(5);
+                },
+                index: 5,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -121,7 +118,7 @@ class DrawerTile extends StatelessWidget {
                     horizontalTitleGap: 0,
                     leading: SvgPicture.asset(
                       svgSrc,
-                      color: selected.value == index
+                      color: Get.find<SideMenuController>().nav.index.value == index
                           ? MyTheme.primaryColorLight
                           : MyTheme.textColorLight,
                       height: 23,
@@ -131,7 +128,7 @@ class DrawerTile extends StatelessWidget {
                       maxLines: 1,
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: selected.value == index
+                          color: Get.find<SideMenuController>().nav.index.value == index
                               ? MyTheme.primaryColorLight
                               : MyTheme.textColorLight,
                           fontSize: 17.0),
@@ -147,7 +144,7 @@ class DrawerTile extends StatelessWidget {
                     horizontalTitleGap: 0,
                     title: SvgPicture.asset(
                       svgSrc,
-                      color: selected.value == index
+                      color: Get.find<SideMenuController>().nav.index.value == index
                           ? MyTheme.primaryColorLight
                           : MyTheme.textColorLight,
                       height: 25,
