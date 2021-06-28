@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:fontina/components/fonts_info_chart.dart';
+import 'package:fontina/util/theme.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
@@ -48,6 +50,16 @@ class FontgenFontsController extends GetxController {
   RxList<FontgenFonts> fonts = RxList<FontgenFonts>.empty(growable: true);
   var url = Uri.parse("https://fontgen-sb.herokuapp.com/list-fonts");
   List<String> types = [];
+  List<Color> colors = [
+    Color(0xffa6dc8c),
+    Color(0xff908cdc),
+    Color(0xffdca58c),
+    Color(0xff8cc6dc),
+    Color(0xffdcd48c),
+    Color(0xffdc8cd3),
+    Color(0xffdc8c93),
+    Color(0xff81ceb8),
+  ];
 
   Future<bool> getFonts() async {
     try {
@@ -75,16 +87,6 @@ class FontgenFontsController extends GetxController {
   }
 
   List<PieChartSectionData> getPieChartSections() {
-    List<Color> colors = [
-      Color(0xffa6dc8c),
-      Color(0xff908cdc),
-      Color(0xffdca58c),
-      Color(0xff8cc6dc),
-      Color(0xffdcd48c),
-      Color(0xffdc8cd3),
-      Color(0xffdc8c93),
-      Color(0xff81ceb8),
-    ];
     List<PieChartSectionData> data = [];
     List<int> numOfFonts = [];
     types.forEach((element) {
@@ -109,5 +111,48 @@ class FontgenFontsController extends GetxController {
       );
     }
     return data;
+  }
+
+  List<Widget> getPieChartIndicator() {
+    List<Widget> widgets = [];
+
+    List<int> numOfFonts = [];
+    types.forEach((element) {
+      numOfFonts.add(0);
+    });
+    fonts.forEach((font) {
+      types.forEach((type) {
+        if (font.type == type) {
+          numOfFonts[types.indexOf(type)]++;
+        }
+      });
+    });
+
+    for (var i = 0; i < types.length; i++) {
+      widgets.add(ChartIndicator(
+          color: colors[i],
+          imgSrc: getImgSrc(types[i]),
+          title: types[i],
+          amount: numOfFonts[i].toString()));
+    }
+    return widgets;
+  }
+
+  String getImgSrc(data) {
+    if (data == "Serif") {
+      return "assets/svg/serif_ico.png";
+    } else if (data == "Sans Serif") {
+      return "assets/svg/sans_serif_ico.png";
+    } else if (data == "Handwriting") {
+      return "assets/svg/hand_ico.png";
+    } else if (data == "Monospace") {
+      return "assets/svg/mono_icon.png";
+    } else if (data == "Slab Serif") {
+      return "assets/svg/slab_serif_ico.png";
+    } else if (data == "Display") {
+      return "assets/svg/display_ico.png";
+    } else {
+      return "assets/svg/other_ico.png";
+    }
   }
 }

@@ -34,9 +34,7 @@ class APIInfoCard extends StatelessWidget {
         },
         child: Padding(
           padding: MyTheme.cardPadding,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Stack(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,14 +107,19 @@ class APIInfoCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Obx(
-                () => Image.asset(
-                  _fontgenInfoController.conn.value == true
-                      ? "assets/images/internet-on.png"
-                      : "assets/images/internet-off.png",
-                  height: _size.width > 535 ? 70.0 * scale : 70.0 * scale / 1.5,
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: Obx(
+                  () => Image.asset(
+                    _fontgenInfoController.conn.value == true
+                        ? "assets/images/internet-on.png"
+                        : "assets/images/internet-off.png",
+                    height:
+                        _size.width > 535 ? 70.0 * scale : 70.0 * scale / 1,
+                  ),
                 ),
-              ),
+              )
             ],
           ),
         ),

@@ -45,7 +45,9 @@ class FontsInfoChart extends StatelessWidget {
                 PieChart(
                   PieChartData(
                       sectionsSpace: 0,
-                      centerSpaceRadius: !Responsive.isMobile(context) ? (_size.width > 1185 ? 80 : 50) : 80,
+                      centerSpaceRadius: Responsive.isDesktop(context)
+                          ? (_size.width > 1185 ? 80 : 50)
+                          : 80,
                       startDegreeOffset: -90,
                       sections: _fontgenFontsController.getPieChartSections(),
                       pieTouchData: PieTouchData(
@@ -53,7 +55,7 @@ class FontsInfoChart extends StatelessWidget {
                       )),
                 ),
                 Positioned.fill(
-                  top: 62.0,
+                  top: 64.0,
                   child: Obx(
                     () => Column(
                       children: [
@@ -72,6 +74,82 @@ class FontsInfoChart extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Column(
+            children: _fontgenFontsController.getPieChartIndicator(),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ChartIndicator extends StatelessWidget {
+  ChartIndicator(
+      {Key? key,
+      required this.color,
+      required this.imgSrc,
+      required this.title,
+      required this.amount})
+      : super(key: key);
+
+  final Color color;
+  final String imgSrc;
+  final String title;
+  final String amount;
+
+  final FontgenFontsController _fontgenFontsController =
+      Get.find<FontgenFontsController>();
+
+  @override
+  Widget build(BuildContext context) {
+    double _scale = Responsive.isDesktop(context)
+        ? (MediaQuery.of(context).size.width > 1255 ? 1 : 0.7)
+        : 1;
+    return Container(
+      margin: EdgeInsets.only(bottom: 20.0),
+      width: double.infinity,
+      padding: MyTheme.cardPadding / 1.5,
+      decoration: BoxDecoration(
+        borderRadius: MyTheme.borderRadius,
+        border: Border.all(color: Colors.black12, width: 1.0),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 30 * _scale,
+                padding: EdgeInsets.all(3),
+                decoration: BoxDecoration(
+                  borderRadius: MyTheme.borderRadius / 1.5,
+                  color: color.withOpacity(0.4),
+                ),
+                child: Image.asset(
+                  _fontgenFontsController.getImgSrc(title),
+                  color: HSLColor.fromColor(color).withLightness(0.6).toColor(),
+                  height: 3.0,
+                ),
+              ),
+              SizedBox(
+                width: 17.0,
+              ),
+              Text(
+                title,
+                style: MyTheme.cardKey,
+                textScaleFactor: _scale,
+              ),
+            ],
+          ),
+          Text(
+            amount.toString(),
+            style: MyTheme.cardValue,
+            textScaleFactor: _scale,
           )
         ],
       ),

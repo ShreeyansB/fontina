@@ -47,23 +47,19 @@ class DetailsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                if(!Responsive.isMobile(context))
-                SizedBox(
-                  width: 20,
-                ),
-                if(!Responsive.isMobile(context))
-                 Expanded(
-                    flex: 2,
-                    child: FontsInfoChart()),
-                    
+                if (Responsive.isDesktop(context))
+                  SizedBox(
+                    width: 20,
+                  ),
+                if (Responsive.isDesktop(context))
+                  Expanded(flex: 2, child: FontsInfoChart()),
               ],
             ),
-            if(Responsive.isMobile(context))
-                SizedBox(
-                  height: MyTheme.defaultPadding,
-                ),
-            if(Responsive.isMobile(context))
-            FontsInfoChart(),
+            if (!Responsive.isDesktop(context))
+              SizedBox(
+                height: MyTheme.defaultPadding,
+              ),
+            if (!Responsive.isDesktop(context)) FontsInfoChart(),
           ],
         ),
       ),
