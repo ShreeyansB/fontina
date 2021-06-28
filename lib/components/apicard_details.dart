@@ -7,125 +7,120 @@ import 'package:url_launcher/url_launcher.dart';
 
 class APIInfoCard extends StatelessWidget {
   final double scale;
-  const APIInfoCard({Key? key, required this.scale}) : super(key: key);
+  APIInfoCard({Key? key, required this.scale}) : super(key: key);
 
   void _launchURL(_url) async => await canLaunch(_url)
       ? await launch(_url)
       : throw 'Could not launch $_url';
 
+  final _fontgenInfoController = Get.find<FontgenInfoController>();
+
   @override
   Widget build(BuildContext context) {
+    final Size _size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: MyTheme.borderRadius,
         border: Border.all(color: Colors.black12, width: 1.0),
       ),
-      child: Obx(() => Padding(
-            padding: MyTheme.cardPadding,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      Get.find<FontgenInfoController>().fontgenInfo.value.name +
-                          " API",
-                      textScaleFactor: this.scale,
-                      style: MyTheme.headingSec,
-                    ),
-                    SizedBox(
-                      height: 14.0,
-                    ),
-                    Row(
-                      children: [
-                        Text("Version:  ",
-                            textScaleFactor: this.scale,
-                            style: MyTheme.cardKey),
-                        Text(
-                            Get.find<FontgenInfoController>()
-                                .fontgenInfo
-                                .value
-                                .version,
-                            textScaleFactor: this.scale,
-                            style: MyTheme.cardValue),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Row(
-                      children: [
-                        Text("Author:  ",
-                            textScaleFactor: this.scale,
-                            style: MyTheme.cardKey),
-                        Text(
-                            Get.find<FontgenInfoController>()
-                                .fontgenInfo
-                                .value
-                                .author,
-                            textScaleFactor: this.scale,
-                            style: MyTheme.cardValue),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Row(
-                      children: [
-                        Text("Repo:  ",
-                            textScaleFactor: this.scale,
-                            style: MyTheme.cardKey),
-                        RichText(
-                          textScaleFactor: this.scale,
-                          text: TextSpan(
-                              text: Get.find<FontgenInfoController>()
-                                  .fontgenInfo
-                                  .value
-                                  .repo,
-                              style: MyTheme.cardValue,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () async {
-                                  _launchURL(Get.find<FontgenInfoController>()
-                                      .fontgenInfo
-                                      .value
-                                      .repo);
-                                }),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.0,
-                    ),
-                    Row(
-                      children: [
-                        Text("Last Updated:  ",
-                            textScaleFactor: this.scale,
-                            style: MyTheme.cardKey),
-                        Text(
-                            Get.find<FontgenInfoController>()
-                                .fontgenInfo
-                                .value
-                                .lastUpdated,
-                            textScaleFactor: this.scale,
-                            style: MyTheme.cardValue),
-                      ],
-                    ),
-                  ],
-                ),
-                Obx(
-                  () => Image.asset(
-                    Get.find<FontgenInfoController>().conn.value == true
-                        ? "assets/images/internet-on.png"
-                        : "assets/images/internet-off.png",
-                    height: 70.0,
+      child: InkWell(
+        borderRadius: MyTheme.borderRadius,
+        splashColor: MyTheme.primaryColorLight.withOpacity(0.15),
+        hoverColor: Colors.black.withOpacity(0.02),
+        highlightColor: Colors.transparent,
+        onTap: () {
+          _fontgenInfoController.updateAPI();
+        },
+        child: Padding(
+          padding: MyTheme.cardPadding,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _fontgenInfoController.fontgenInfo.value.name + " API",
+                    textScaleFactor: this.scale,
+                    style: MyTheme.headingSec,
                   ),
+                  SizedBox(
+                    height: 14.0,
+                  ),
+                  Row(
+                    children: [
+                      Text("Version:  ",
+                          textScaleFactor: this.scale, style: MyTheme.cardKey),
+                      Obx(() => Text(
+                          _fontgenInfoController.fontgenInfo.value.version,
+                          textScaleFactor: this.scale,
+                          style: MyTheme.cardValue)),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Row(
+                    children: [
+                      Text("Author:  ",
+                          textScaleFactor: this.scale, style: MyTheme.cardKey),
+                      Obx(
+                        () => Text(
+                            _fontgenInfoController.fontgenInfo.value.author,
+                            textScaleFactor: this.scale,
+                            style: MyTheme.cardValue),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Row(
+                    children: [
+                      Text("Repo:  ",
+                          textScaleFactor: this.scale, style: MyTheme.cardKey),
+                      RichText(
+                        textScaleFactor: this.scale,
+                        text: TextSpan(
+                            text: _fontgenInfoController.fontgenInfo.value.repo,
+                            style: MyTheme.cardValue,
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                _launchURL(_fontgenInfoController
+                                    .fontgenInfo.value.repo);
+                              }),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  Row(
+                    children: [
+                      Text("Last Updated:  ",
+                          textScaleFactor: this.scale, style: MyTheme.cardKey),
+                      Obx(() => Text(
+                          _fontgenInfoController.fontgenInfo.value.lastUpdated,
+                          textScaleFactor: this.scale,
+                          style: MyTheme.cardValue)),
+                    ],
+                  ),
+                ],
+              ),
+              Obx(
+                () => Image.asset(
+                  _fontgenInfoController.conn.value == true
+                      ? "assets/images/internet-on.png"
+                      : "assets/images/internet-off.png",
+                  height: _size.width > 535 ? 70.0 * scale : 70.0 * scale / 1.5,
                 ),
-              ],
-            ),
-          )),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

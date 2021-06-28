@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fontina/components/apicard_details.dart';
-import 'package:fontina/dependencies/fontgen_info_dep.dart';
+import 'package:fontina/components/fonts_info_chart.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -11,7 +10,6 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.find<FontgenInfoController>().updateAPI();
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -38,7 +36,7 @@ class DetailsScreen extends StatelessWidget {
                     children: [
                       Responsive(
                           mobile: APIInfoCard(
-                            scale: 0.5,
+                            scale: 0.8,
                           ),
                           tablet: APIInfoCard(
                             scale: 0.8,
@@ -49,17 +47,23 @@ class DetailsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                if(!Responsive.isMobile(context))
                 SizedBox(
                   width: 20,
                 ),
-                Expanded(
+                if(!Responsive.isMobile(context))
+                 Expanded(
                     flex: 2,
-                    child: Container(
-                      height: 300,
-                      color: Colors.grey,
-                    )),
+                    child: FontsInfoChart()),
+                    
               ],
-            )
+            ),
+            if(Responsive.isMobile(context))
+                SizedBox(
+                  height: MyTheme.defaultPadding,
+                ),
+            if(Responsive.isMobile(context))
+            FontsInfoChart(),
           ],
         ),
       ),

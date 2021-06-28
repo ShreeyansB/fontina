@@ -10,6 +10,7 @@ class MyTheme {
   static BorderRadius borderRadius = BorderRadius.circular(12.0);
   static EdgeInsets cardPadding =
       EdgeInsets.symmetric(horizontal: 25.0, vertical: 22.0);
+  static const double defaultPadding = 25.0;
 
   static TextStyle headingSec = TextStyle(
       fontSize: 17.0,
@@ -23,5 +24,10 @@ class MyTheme {
   static TextStyle cardValue = GoogleFonts.spaceGrotesk(
       fontSize: 18.0,
       fontWeight: FontWeight.w700,
+      color: MyTheme.textColorLight);
+
+  static TextStyle largeNumber = GoogleFonts.spaceGrotesk(
+      fontSize: 40.0,
+      fontWeight: FontWeight.w800,
       color: MyTheme.textColorLight);
 }
