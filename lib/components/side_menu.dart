@@ -39,6 +39,9 @@ class _SideMenuState extends State<SideMenu> {
                 svgSrc: "assets/svg/home.svg",
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(0);
+                  if (Responsive.isMobile(context)) {
+                    Get.back();
+                  }
                 },
                 index: 0,
               ),
@@ -47,6 +50,9 @@ class _SideMenuState extends State<SideMenu> {
                 svgSrc: "assets/svg/search.svg",
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(1);
+                  if (Responsive.isMobile(context)) {
+                    Get.back();
+                  }
                 },
                 index: 1,
               ),
@@ -55,6 +61,9 @@ class _SideMenuState extends State<SideMenu> {
                 svgSrc: "assets/svg/fav.svg",
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(2);
+                  if (Responsive.isMobile(context)) {
+                    Get.back();
+                  }
                 },
                 index: 2,
               ),
@@ -63,6 +72,9 @@ class _SideMenuState extends State<SideMenu> {
                 svgSrc: "assets/svg/gen.svg",
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(3);
+                  if (Responsive.isMobile(context)) {
+                    Get.back();
+                  }
                 },
                 index: 3,
               ),
@@ -71,6 +83,9 @@ class _SideMenuState extends State<SideMenu> {
                 svgSrc: "assets/svg/details.svg",
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(4);
+                  if (Responsive.isMobile(context)) {
+                    Get.back();
+                  }
                 },
                 index: 4,
               ),
@@ -79,6 +94,9 @@ class _SideMenuState extends State<SideMenu> {
                 svgSrc: "assets/svg/settings.svg",
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(5);
+                  if (Responsive.isMobile(context)) {
+                    Get.back();
+                  }
                 },
                 index: 5,
               ),
