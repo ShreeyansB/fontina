@@ -86,7 +86,6 @@ class FontgenFontsController extends GetxController {
             }
           }
         });
-        print(numOfFamilyFiles);
         return true;
       } else {
         return false;

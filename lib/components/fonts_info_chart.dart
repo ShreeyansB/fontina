@@ -21,7 +21,7 @@ class FontsInfoChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
     return Container(
-      padding: MyTheme.cardPadding,
+      padding: Responsive.isMobile(context) ? MyTheme.cardPadding/2.5 : MyTheme.cardPadding,
       decoration: BoxDecoration(
         borderRadius: MyTheme.borderRadius,
         border: Border.all(color: Colors.black12, width: 1.0),
@@ -112,7 +112,9 @@ class ChartIndicator extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(bottom: 20.0),
       width: double.infinity,
-      padding: MyTheme.cardPadding / 1.5,
+      padding: Responsive.isMobile(context)
+          ? MyTheme.cardPadding / 2.5
+          : MyTheme.cardPadding / 1.5,
       decoration: BoxDecoration(
         borderRadius: MyTheme.borderRadius,
         border: Border.all(color: Colors.black12, width: 1.0),

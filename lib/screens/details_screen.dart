@@ -69,6 +69,7 @@ class DetailsScreen extends StatelessWidget {
                 height: MyTheme.defaultPadding,
               ),
             if (!Responsive.isDesktop(context)) FontsInfoChart(),
+            SizedBox(height: 100,),
           ],
         ),
       ),

@@ -13,14 +13,15 @@ class FontFamilyGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
     return GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: Responsive.isMobile(context)
             ? (_size.width > 620 ? 3 : crossAxisCount)
             : (Responsive.isDesktop(context)
                 ? (_size.width > 1360 ? crossAxisCount : 3)
                 : crossAxisCount),
-        crossAxisSpacing: 20.0,
-        mainAxisSpacing: 20.0,
+        crossAxisSpacing: Responsive.isMobile(context) ? 9 : 20,
+        mainAxisSpacing: 20,
         childAspectRatio: 1.2,
       ),
       itemCount: _fontgenFontsController.types.length,
@@ -44,7 +45,9 @@ class FontFamilyInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: MyTheme.cardPadding,
+      padding: Responsive.isMobile(context)
+          ? MyTheme.cardPadding / 2.5
+          : MyTheme.cardPadding,
       decoration: BoxDecoration(
         borderRadius: MyTheme.borderRadius,
         color: _fontgenFontsController.colors[index].withOpacity(0.3),
@@ -73,6 +76,7 @@ class FontFamilyInfoCard extends StatelessWidget {
           Text(
             _fontgenFontsController.types[index],
             style: MyTheme.cardKey,
+            textScaleFactor: Responsive.isMobile(context) ? 0.85 : 1,
           ),
           Container(
             margin: EdgeInsets.only(top: 10.0),

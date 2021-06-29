@@ -35,7 +35,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 Expanded(
                     flex: 5,
                     child: Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: Responsive.isMobile(context) ?EdgeInsets.only(top: 30, left: 30, right: 30) : EdgeInsets.symmetric(
                           vertical: 39.0, horizontal: 40.0),
                       child: Obx(() => AnimatedSwitcher(
                             duration: Duration(milliseconds: 300),

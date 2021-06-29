@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fontina/dependencies/fontgen_info_dep.dart';
+import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -33,7 +34,9 @@ class APIInfoCard extends StatelessWidget {
           _fontgenInfoController.updateAPI();
         },
         child: Padding(
-          padding: MyTheme.cardPadding,
+          padding: Responsive.isMobile(context)
+              ? MyTheme.cardPadding / 2.5
+              : MyTheme.cardPadding,
           child: Stack(
             children: [
               Column(
@@ -81,8 +84,11 @@ class APIInfoCard extends StatelessWidget {
                           textScaleFactor: this.scale, style: MyTheme.cardKey),
                       RichText(
                         textScaleFactor: this.scale,
+                        overflow: TextOverflow.ellipsis,
                         text: TextSpan(
-                            text: _fontgenInfoController.fontgenInfo.value.repo,
+                            text: _size.width > 420
+                                ? _fontgenInfoController.fontgenInfo.value.repo
+                                : "Github/fontina",
                             style: MyTheme.cardValue,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () async {
@@ -98,7 +104,9 @@ class APIInfoCard extends StatelessWidget {
                   Row(
                     children: [
                       Text("Last Updated:  ",
-                          textScaleFactor: this.scale, style: MyTheme.cardKey),
+                          overflow: TextOverflow.ellipsis,
+                          textScaleFactor: this.scale,
+                          style: MyTheme.cardKey),
                       Obx(() => Text(
                           _fontgenInfoController.fontgenInfo.value.lastUpdated,
                           textScaleFactor: this.scale,
@@ -115,8 +123,7 @@ class APIInfoCard extends StatelessWidget {
                     _fontgenInfoController.conn.value == true
                         ? "assets/images/internet-on.png"
                         : "assets/images/internet-off.png",
-                    height:
-                        _size.width > 535 ? 70.0 * scale : 70.0 * scale / 1,
+                    height: _size.width > 535 ? 70.0 * scale : 70.0 * scale / 1,
                   ),
                 ),
               )
