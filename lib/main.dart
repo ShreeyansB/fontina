@@ -5,8 +5,8 @@ import 'package:fontina/screens/base_screen.dart';
 import 'package:get/get.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'dependencies/side_navigation_dep.dart';
+import 'package:universal_html/html.dart';
 
 void main() {
   Get.put(SideMenuController());
@@ -21,6 +21,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<FontgenInfoController>().updateAPI();
+    final loader = document.getElementsByClassName("sk-chase");
+    if (loader.isNotEmpty) {
+      loader.first.remove();
+    }
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'fontina',
