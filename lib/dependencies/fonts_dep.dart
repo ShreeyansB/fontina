@@ -60,6 +60,7 @@ class FontgenFontsController extends GetxController {
     Color(0xffdc8c93),
     Color(0xff81ceb8),
   ];
+  List<int> numOfFamilyFiles = [];
 
   Future<bool> getFonts() async {
     try {
@@ -75,6 +76,17 @@ class FontgenFontsController extends GetxController {
             types.add(element.type);
           }
         });
+        types.forEach((element) {
+          numOfFamilyFiles.add(0);
+        });
+        fonts.forEach((font) {
+          for (var i = 0; i < types.length; i++) {
+            if (font.type == types[i]) {
+              numOfFamilyFiles[i] += font.weights.length;
+            }
+          }
+        });
+        print(numOfFamilyFiles);
         return true;
       } else {
         return false;

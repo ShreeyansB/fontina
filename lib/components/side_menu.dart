@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fontina/dependencies/side_navigation_dep.dart';
+import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 
@@ -104,55 +105,54 @@ class DrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 150,
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth >= 150) {
-              return Obx(() => ListTile(
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 3,
-                      horizontal: 20,
-                    ),
-                    onTap: onPress,
-                    horizontalTitleGap: 0,
-                    leading: SvgPicture.asset(
-                      svgSrc,
-                      color: Get.find<SideMenuController>().nav.index.value == index
+    if (Responsive.isDesktop(context)) {
+      return Container(
+          width: 150,
+          child: Obx(() => ListTile(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 3,
+                  horizontal: 20,
+                ),
+                onTap: onPress,
+                horizontalTitleGap: 0,
+                leading: SvgPicture.asset(
+                  svgSrc,
+                  color: Get.find<SideMenuController>().nav.index.value == index
+                      ? MyTheme.primaryColorLight
+                      : MyTheme.textColorLight,
+                  height: 23,
+                ),
+                title: Text(
+                  title,
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Get.find<SideMenuController>().nav.index.value ==
+                              index
                           ? MyTheme.primaryColorLight
                           : MyTheme.textColorLight,
-                      height: 23,
-                    ),
-                    title: Text(
-                      title,
-                      maxLines: 1,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Get.find<SideMenuController>().nav.index.value == index
-                              ? MyTheme.primaryColorLight
-                              : MyTheme.textColorLight,
-                          fontSize: 17.0),
-                    ),
-                  ));
-            } else {
-              return Obx(() => ListTile(
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 3,
-                      horizontal: 20,
-                    ),
-                    onTap: onPress,
-                    horizontalTitleGap: 0,
-                    title: SvgPicture.asset(
-                      svgSrc,
-                      color: Get.find<SideMenuController>().nav.index.value == index
-                          ? MyTheme.primaryColorLight
-                          : MyTheme.textColorLight,
-                      height: 25,
-                    ),
-                  ));
-            }
-          },
-        ));
+                      fontSize: 17.0),
+                ),
+              )));
+    } else {
+      return Container(
+          width: 150,
+          child: Obx(() => ListTile(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 3,
+                  horizontal: 20,
+                ),
+                onTap: onPress,
+                horizontalTitleGap: 0,
+                title: SvgPicture.asset(
+                  svgSrc,
+                  color: Get.find<SideMenuController>().nav.index.value == index
+                      ? MyTheme.primaryColorLight
+                      : MyTheme.textColorLight,
+                  height: 23,
+                ),
+              )));
+    }
   }
 }
 

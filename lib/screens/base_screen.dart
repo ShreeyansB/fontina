@@ -38,8 +38,8 @@ class _BaseScreenState extends State<BaseScreen> {
                       padding: EdgeInsets.symmetric(
                           vertical: 39.0, horizontal: 40.0),
                       child: Obx(() => AnimatedSwitcher(
-                            duration: Duration(milliseconds: 170),
-                            reverseDuration: Duration(milliseconds: 70),
+                            duration: Duration(milliseconds: 300),
+                            reverseDuration: Duration(milliseconds: 100),
                             switchInCurve: Curves.easeOutBack,
                             switchOutCurve: Curves.easeIn,
                             transitionBuilder:
@@ -68,3 +68,5 @@ class _BaseScreenState extends State<BaseScreen> {
     );
   }
 }
+
+

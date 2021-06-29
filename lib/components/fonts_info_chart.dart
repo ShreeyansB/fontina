@@ -128,7 +128,7 @@ class ChartIndicator extends StatelessWidget {
                 padding: EdgeInsets.all(3),
                 decoration: BoxDecoration(
                   borderRadius: MyTheme.borderRadius / 1.5,
-                  color: color.withOpacity(0.4),
+                  color: color.withOpacity(0.3),
                 ),
                 child: Image.asset(
                   _fontgenFontsController.getImgSrc(title),

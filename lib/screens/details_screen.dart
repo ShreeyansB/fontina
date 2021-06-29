@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fontina/components/apicard_details.dart';
+import 'package:fontina/components/font_family_grid.dart';
 import 'package:fontina/components/fonts_info_chart.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({Key? key}) : super(key: key);
+  DetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,14 @@ class DetailsScreen extends StatelessWidget {
                           desktop: APIInfoCard(
                             scale: 1,
                           )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Responsive(
+                        desktop: FontFamilyGrid(crossAxisCount: 4),
+                        tablet: FontFamilyGrid(crossAxisCount: 3),
+                        mobile: FontFamilyGrid(crossAxisCount: 2),
+                      ),
                     ],
                   ),
                 ),
