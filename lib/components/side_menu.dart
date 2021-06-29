@@ -105,7 +105,7 @@ class DrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Responsive.isDesktop(context)) {
+    if (Responsive.isDesktop(context) || Responsive.isMobile(context)) {
       return Container(
           width: 150,
           child: Obx(() => ListTile(

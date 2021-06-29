@@ -23,6 +23,8 @@ class _BaseScreenState extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Get.find<SideMenuController>().scaffoldKey,
+      drawer: SideMenu(),
       body: SafeArea(
           child: FutureBuilder(
         future: Get.find<FontgenFontsController>().getFonts(),

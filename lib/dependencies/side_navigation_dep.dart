@@ -22,7 +22,16 @@ class SideMenuController extends GetxController {
     SettingsScreen()
   ];
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
+
   void switchScreen(int i) {
     nav.index.value = i;
+  }
+
+  void controlMenu() {
+    if (!_scaffoldKey.currentState!.isDrawerOpen) {
+      _scaffoldKey.currentState!.openDrawer();
+    }
   }
 }
