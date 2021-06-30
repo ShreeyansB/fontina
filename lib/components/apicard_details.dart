@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:fontina/dependencies/fontgen_info_dep.dart';
-import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,9 +33,7 @@ class APIInfoCard extends StatelessWidget {
           _fontgenInfoController.updateAPI();
         },
         child: Padding(
-          padding: Responsive.isMobile(context)
-              ? MyTheme.cardPadding / 2.5
-              : MyTheme.cardPadding,
+          padding: MyTheme.cardPadding,
           child: Stack(
             children: [
               Column(
@@ -86,7 +83,7 @@ class APIInfoCard extends StatelessWidget {
                         textScaleFactor: this.scale,
                         overflow: TextOverflow.ellipsis,
                         text: TextSpan(
-                            text: _size.width > 420
+                            text: _size.width > 490
                                 ? _fontgenInfoController.fontgenInfo.value.repo
                                 : "Github/fontina",
                             style: MyTheme.cardValue,

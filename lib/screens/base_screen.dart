@@ -37,8 +37,7 @@ class _BaseScreenState extends State<BaseScreen> {
                 Expanded(
                     flex: 5,
                     child: Container(
-                      padding: Responsive.isMobile(context) ?EdgeInsets.only(top: 30, left: 30, right: 30) : EdgeInsets.symmetric(
-                          vertical: 39.0, horizontal: 40.0),
+                      padding: EdgeInsets.only(top: 37, left: 37, right: 37),
                       child: Obx(() => AnimatedSwitcher(
                             duration: Duration(milliseconds: 300),
                             reverseDuration: Duration(milliseconds: 100),
@@ -58,7 +57,8 @@ class _BaseScreenState extends State<BaseScreen> {
               ],
             );
           }
-          return Center(child: SizedBox(
+          return Center(
+              child: SizedBox(
             width: 100,
             height: 100,
             child: CircularProgressIndicator(
@@ -70,5 +70,3 @@ class _BaseScreenState extends State<BaseScreen> {
     );
   }
 }
-
-

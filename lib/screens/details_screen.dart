@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fontina/components/apicard_details.dart';
 import 'package:fontina/components/font_family_grid.dart';
 import 'package:fontina/components/fonts_info_chart.dart';
+import 'package:fontina/components/fonts_table.dart';
 import 'package:fontina/dependencies/side_navigation_dep.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
@@ -55,10 +56,10 @@ class DetailsScreen extends StatelessWidget {
                     children: [
                       Responsive(
                           mobile: APIInfoCard(
-                            scale: 0.8,
+                            scale: 0.82,
                           ),
                           tablet: APIInfoCard(
-                            scale: 0.8,
+                            scale: 1,
                           ),
                           desktop: APIInfoCard(
                             scale: 1,
@@ -71,6 +72,18 @@ class DetailsScreen extends StatelessWidget {
                         tablet: FontFamilyGrid(crossAxisCount: 3),
                         mobile: FontFamilyGrid(crossAxisCount: 2),
                       ),
+                      if (!Responsive.isDesktop(context))
+                        SizedBox(
+                          height: MyTheme.defaultPadding,
+                        ),
+                      if (!Responsive.isDesktop(context)) FontsInfoChart(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      FontsTable(),
+                      SizedBox(
+                        height: 100,
+                      ),
                     ],
                   ),
                 ),
@@ -81,14 +94,6 @@ class DetailsScreen extends StatelessWidget {
                 if (Responsive.isDesktop(context))
                   Expanded(flex: 2, child: FontsInfoChart()),
               ],
-            ),
-            if (!Responsive.isDesktop(context))
-              SizedBox(
-                height: MyTheme.defaultPadding,
-              ),
-            if (!Responsive.isDesktop(context)) FontsInfoChart(),
-            SizedBox(
-              height: 100,
             ),
           ],
         ),

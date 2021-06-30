@@ -62,6 +62,10 @@ class FontgenFontsController extends GetxController {
   ];
   List<int> numOfFamilyFiles = [];
 
+  Map<String, Color> colorMap = {
+    "other": Color(0xffef7a7a),
+  };
+
   Future<bool> getFonts() async {
     try {
       var response = await http.get(url);
@@ -86,6 +90,11 @@ class FontgenFontsController extends GetxController {
             }
           }
         });
+        colorMap = Map.fromIterable(
+          types,
+          key: (item) => item,
+          value: (item) => colors[types.indexOf(item)],
+        );
         return true;
       } else {
         return false;

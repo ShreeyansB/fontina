@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<FontgenInfoController>().updateAPI();
-    final loader = document.getElementsByClassName("sk-chase");
+    final loader = document.getElementsByClassName("loader");
     if (loader.isNotEmpty) {
       loader.first.remove();
     }
