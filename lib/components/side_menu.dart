@@ -27,10 +27,13 @@ class _SideMenuState extends State<SideMenu> {
           padding: EdgeInsets.only(bottom: 30.0),
           child: Column(
             children: [
-              DrawerHeader(
-                child: Image.asset(
-                  "assets/images/logo.png",
-                  width: 65,
+              Container(
+                margin: Responsive.isTablet(context) ? EdgeInsets.only(top: 20) : EdgeInsets.all(0),
+                width: Responsive.isTablet(context) ? 105 : 170,
+                child: Responsive.isTablet(context) ? Image.asset(
+                  "assets/images/logo_small.png",
+                ) : Image.asset(
+                  "assets/images/logo_full.png",
                 ),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
               ),

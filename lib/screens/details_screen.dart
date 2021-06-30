@@ -28,7 +28,7 @@ class DetailsScreen extends StatelessWidget {
                         Get.find<SideMenuController>().controlMenu();
                       },
                       icon: Icon(
-                        Icons.menu_rounded,
+                        Icons.menu,
                         color: MyTheme.primaryColorLight,
                         size: 40,
                       )),
