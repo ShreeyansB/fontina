@@ -1,0 +1,286 @@
+import 'package:flutter/material.dart';
+import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/util/responsive.dart';
+import 'package:fontina/util/theme.dart';
+import 'package:get/get.dart';
+
+class FontsSearchTable extends StatelessWidget {
+  const FontsSearchTable({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (!Responsive.isMobile(context)) {
+      return Container(
+        width: double.infinity,
+        padding: MyTheme.cardPadding,
+        decoration: BoxDecoration(
+          borderRadius: MyTheme.borderRadius,
+          border: Border.all(color: Colors.black12, width: 1.0),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Fonts",
+              style: MyTheme.headingSec,
+            ),
+            SizedBox(
+              height: 14.0,
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: SearchDataTable(
+                scale: 1,
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: SearchListview(),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+}
+
+class SearchDataTable extends StatefulWidget {
+  SearchDataTable({Key? key, required this.scale}) : super(key: key);
+  final double scale;
+
+  @override
+  _SearchDataTableState createState() => _SearchDataTableState();
+}
+
+class _SearchDataTableState extends State<SearchDataTable> {
+  List<DataRow> searchRows = [];
+  final _fontgenFontsController = Get.find<FontgenFontsController>();
+  List<FontgenFonts> loadedFonts = [];
+  bool famSort = true;
+
+  void initRows() {
+    if (_fontgenFontsController.fonts.isNotEmpty) {
+      loadedFonts = _fontgenFontsController.fonts;
+      loadedFonts.sort((a, b) => a.family.compareTo(b.family));
+      addRows();
+    }
+  }
+
+  void addRows() {
+    searchRows = [];
+    loadedFonts.forEach((font) {
+      searchRows.add(DataRow(
+        cells: [
+          DataCell(Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
+                height: 41.0 * widget.scale,
+                decoration: BoxDecoration(
+                  color: HSLColor.fromColor(
+                          _fontgenFontsController.colorMap[font.type]!)
+                      .withLightness(0.73)
+                      .toColor(),
+                  borderRadius: MyTheme.borderRadius / 1.5,
+                ),
+                child: Image.asset(
+                  _fontgenFontsController.getImgSrc(font.type),
+                  color: HSLColor.fromColor(
+                          _fontgenFontsController.colorMap[font.type]!)
+                      .withLightness(0.85)
+                      .toColor(),
+                ),
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              Text(
+                font.family,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          )),
+          DataCell(Text(font.type, overflow: TextOverflow.ellipsis)),
+          DataCell(Text(font.weights.length.toString())),
+          DataCell(
+            Text(
+              font.isPaid ? "No" : "Yes",
+              style: TextStyle(
+                  color: font.isPaid ? Color(0xff9b475d) : Color(0xff447c69)),
+            ),
+          ),
+        ],
+        onSelectChanged: (value) {
+          print(font.family);
+        },
+      ));
+    });
+  }
+
+  void sortByFamily(bool asc) {
+    if (asc) {
+      loadedFonts.sort((a, b) => a.family.compareTo(b.family));
+    } else {
+      loadedFonts.sort((a, b) => a.family.compareTo(b.family));
+      loadedFonts = loadedFonts.reversed.toList();
+    }
+    setState(() {
+      addRows();
+      famSort = !famSort;
+    });
+  }
+
+  void sortByType() {
+    loadedFonts.sort((a, b) => a.type.compareTo(b.type));
+    setState(() {
+      addRows();
+    });
+  }
+
+  void sortByPay() {
+    loadedFonts.sort((a, b) => boolSort(a, b));
+    setState(() {
+      addRows();
+    });
+  }
+
+  int boolSort(FontgenFonts a, FontgenFonts b) {
+    bool x = a.isPaid;
+    bool y = b.isPaid;
+    if (x != y) {
+      if (x) {
+        return -1;
+      } else {
+        return 1;
+      }
+    } else {
+      return a.family.compareTo(b.family);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initRows();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DataTable(
+      showCheckboxColumn: false,
+      headingTextStyle: MyTheme.cardValue.copyWith(fontSize: 20 * widget.scale),
+      dataTextStyle: MyTheme.cardKey
+          .copyWith(fontSize: 17 * widget.scale, letterSpacing: 0.8),
+      horizontalMargin: 0,
+      dataRowHeight: 65.0,
+      sortAscending: famSort,
+      sortColumnIndex: 0,
+      columns: [
+        DataColumn(
+          label: Text("Font Family"),
+          onSort: (columnIndex, ascending) {
+            sortByFamily(ascending);
+          },
+        ),
+        DataColumn(
+          label: Text("Type"),
+          onSort: (columnIndex, ascending) {
+            sortByType();
+          },
+        ),
+        DataColumn(label: Text("Weights"), numeric: true),
+        DataColumn(
+          label: Text("Free"),
+          onSort: (columnIndex, ascending) {
+            sortByPay();
+          },
+        ),
+      ],
+      rows: searchRows,
+    );
+  }
+}
+
+class SearchListview extends StatefulWidget {
+  const SearchListview({Key? key}) : super(key: key);
+
+  @override
+  _SearchListviewState createState() => _SearchListviewState();
+}
+
+class _SearchListviewState extends State<SearchListview> {
+  final _fontgenFontsController = Get.find<FontgenFontsController>();
+  List<FontgenFonts> loadedFonts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadedFonts = _fontgenFontsController.fonts;
+    loadedFonts.sort((a, b) => a.family.compareTo(b.family));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: loadedFonts.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            contentPadding: EdgeInsets.only(right: 20, top: 7, bottom: 12),
+            minLeadingWidth: 40,
+            leading: Container(
+              padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
+              height: 37.0,
+              decoration: BoxDecoration(
+                color: HSLColor.fromColor(_fontgenFontsController
+                        .colorMap[loadedFonts[index].type]!)
+                    .withLightness(0.73)
+                    .toColor(),
+                borderRadius: MyTheme.borderRadius / 1.5,
+              ),
+              child: Image.asset(
+                _fontgenFontsController.getImgSrc(loadedFonts[index].type),
+                color: HSLColor.fromColor(_fontgenFontsController
+                        .colorMap[loadedFonts[index].type]!)
+                    .withLightness(0.85)
+                    .toColor(),
+              ),
+            ),
+            title: Padding(
+              padding: EdgeInsets.only(bottom: 6),
+              child: Text(
+                loadedFonts[index].family,
+                style: MyTheme.cardKey,
+              ),
+            ),
+            subtitle: Text(
+              loadedFonts[index].type,
+              style: MyTheme.cardKey.copyWith(
+                  fontSize: 15, color: MyTheme.textColorLight.withOpacity(0.6)),
+            ),
+            trailing: Text(loadedFonts[index].weights.length.toString(),
+                style: MyTheme.cardKey.copyWith(
+                    color: loadedFonts[index].isPaid
+                        ? Color(0xff9b475d)
+                        : Color(0xff447c69))),
+            onTap: () {
+              print(loadedFonts[index].family);
+            },
+          );
+        },
+      ),
+    );
+  }
+}

@@ -12,6 +12,12 @@ import 'package:google_fonts/google_fonts.dart';
 class DetailsScreen extends StatelessWidget {
   DetailsScreen({Key? key}) : super(key: key);
 
+  Future<bool> loadDetails() async {
+    return Future.delayed(Duration(milliseconds: 2000), () {
+      return true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,11 +82,50 @@ class DetailsScreen extends StatelessWidget {
                         SizedBox(
                           height: MyTheme.defaultPadding,
                         ),
-                      if (!Responsive.isDesktop(context)) FontsInfoChart(),
+                      if (!Responsive.isDesktop(context))
+                        FutureBuilder(
+                          future: loadDetails(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return FontsInfoChart();
+                            }
+                            return Container(
+                              width: double.infinity,
+                              height: 300,
+                              child: Center(
+                                  child: SizedBox(
+                                width: 60,
+                                height: 60,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 4.0,
+                                ),
+                              )),
+                            );
+                          },
+                        ),
                       SizedBox(
                         height: 20,
                       ),
-                      FontsTable(),
+                      FutureBuilder(
+                        future: loadDetails(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return FontsTable();
+                          }
+                          return Container(
+                            width: double.infinity,
+                            height: 300,
+                            child: Center(
+                                child: SizedBox(
+                              width: 60,
+                              height: 60,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 4.0,
+                              ),
+                            )),
+                          );
+                        },
+                      ),
                       SizedBox(
                         height: 100,
                       ),
@@ -92,7 +137,28 @@ class DetailsScreen extends StatelessWidget {
                     width: 20,
                   ),
                 if (Responsive.isDesktop(context))
-                  Expanded(flex: 2, child: FontsInfoChart()),
+                  Expanded(
+                      flex: 2,
+                      child: FutureBuilder(
+                        future: loadDetails(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return FontsInfoChart();
+                          }
+                          return Container(
+                            width: double.infinity,
+                            height: 300,
+                            child: Center(
+                                child: SizedBox(
+                              width: 60,
+                              height: 60,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 4.0,
+                              ),
+                            )),
+                          );
+                        },
+                      )),
               ],
             ),
           ],

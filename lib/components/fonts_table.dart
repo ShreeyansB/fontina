@@ -84,7 +84,11 @@ class FontsDataTable extends StatelessWidget {
           DataCell(Text(font.dateAdded
               .toString()
               .substring(0, font.dateAdded.toString().length - 5))),
-        ]));
+        ],
+        onSelectChanged: (value) {
+          print(font.family);
+        },
+        ));
       });
     }
     return dataRows;
@@ -95,6 +99,7 @@ class FontsDataTable extends StatelessWidget {
     final _size = MediaQuery.of(context).size;
     if (_size.width > 560) {
       return DataTable(
+        showCheckboxColumn: false,
         headingTextStyle: MyTheme.cardValue.copyWith(fontSize: 17 * scale),
         dataTextStyle:
             MyTheme.cardKey.copyWith(fontSize: 15 * scale, letterSpacing: 0.8),
@@ -110,6 +115,7 @@ class FontsDataTable extends StatelessWidget {
       );
     } else {
       return SingleChildScrollView(
+        physics: BouncingScrollPhysics() ,
         scrollDirection: Axis.horizontal,
         child: DataTable(
           headingTextStyle: MyTheme.cardValue.copyWith(fontSize: 17 * scale),
