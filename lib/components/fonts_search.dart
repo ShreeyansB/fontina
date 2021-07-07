@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
@@ -78,52 +79,60 @@ class _SearchDataTableState extends State<SearchDataTable> {
   void addRows() {
     searchRows = [];
     loadedFonts.forEach((font) {
-      searchRows.add(DataRow(
-        cells: [
-          DataCell(Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
-                height: 41.0 * widget.scale,
-                decoration: BoxDecoration(
-                  color: HSLColor.fromColor(
-                          _fontgenFontsController.colorMap[font.type]!)
-                      .withLightness(0.73)
-                      .toColor(),
-                  borderRadius: MyTheme.borderRadius / 1.5,
+      if (Get.find<SearchTextfieldController>().controller.value.text.isEmpty ||
+          font.family.toLowerCase().contains(
+              Get.find<SearchTextfieldController>()
+                  .controller
+                  .value
+                  .text
+                  .toLowerCase())) {
+        searchRows.add(DataRow(
+          cells: [
+            DataCell(Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
+                  height: 41.0 * widget.scale,
+                  decoration: BoxDecoration(
+                    color: HSLColor.fromColor(
+                            _fontgenFontsController.colorMap[font.type]!)
+                        .withLightness(0.73)
+                        .toColor(),
+                    borderRadius: MyTheme.borderRadius / 1.5,
+                  ),
+                  child: Image.asset(
+                    _fontgenFontsController.getImgSrc(font.type),
+                    color: HSLColor.fromColor(
+                            _fontgenFontsController.colorMap[font.type]!)
+                        .withLightness(0.85)
+                        .toColor(),
+                  ),
                 ),
-                child: Image.asset(
-                  _fontgenFontsController.getImgSrc(font.type),
-                  color: HSLColor.fromColor(
-                          _fontgenFontsController.colorMap[font.type]!)
-                      .withLightness(0.85)
-                      .toColor(),
+                SizedBox(
+                  width: 15,
                 ),
-              ),
-              SizedBox(
-                width: 15,
-              ),
+                Text(
+                  font.family,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            )),
+            DataCell(Text(font.type, overflow: TextOverflow.ellipsis)),
+            DataCell(Text(font.weights.length.toString())),
+            DataCell(
               Text(
-                font.family,
-                overflow: TextOverflow.ellipsis,
+                font.isPaid ? "No" : "Yes",
+                style: TextStyle(
+                    color: font.isPaid ? Color(0xff9b475d) : Color(0xff447c69)),
               ),
-            ],
-          )),
-          DataCell(Text(font.type, overflow: TextOverflow.ellipsis)),
-          DataCell(Text(font.weights.length.toString())),
-          DataCell(
-            Text(
-              font.isPaid ? "No" : "Yes",
-              style: TextStyle(
-                  color: font.isPaid ? Color(0xff9b475d) : Color(0xff447c69)),
             ),
-          ),
-        ],
-        onSelectChanged: (value) {
-          print(font.family);
-        },
-      ));
+          ],
+          onSelectChanged: (value) {
+            print(font.family);
+          },
+        ));
+      }
     });
   }
 
@@ -176,37 +185,44 @@ class _SearchDataTableState extends State<SearchDataTable> {
 
   @override
   Widget build(BuildContext context) {
-    return DataTable(
-      showCheckboxColumn: false,
-      headingTextStyle: MyTheme.cardValue.copyWith(fontSize: 20 * widget.scale),
-      dataTextStyle: MyTheme.cardKey
-          .copyWith(fontSize: 17 * widget.scale, letterSpacing: 0.8),
-      horizontalMargin: 0,
-      dataRowHeight: 65.0,
-      sortAscending: famSort,
-      sortColumnIndex: 0,
-      columns: [
-        DataColumn(
-          label: Text("Font Family"),
-          onSort: (columnIndex, ascending) {
-            sortByFamily(ascending);
-          },
-        ),
-        DataColumn(
-          label: Text("Type"),
-          onSort: (columnIndex, ascending) {
-            sortByType();
-          },
-        ),
-        DataColumn(label: Text("Weights"), numeric: true),
-        DataColumn(
-          label: Text("Free"),
-          onSort: (columnIndex, ascending) {
-            sortByPay();
-          },
-        ),
-      ],
-      rows: searchRows,
+    return GetBuilder(
+      init: Get.find<SearchTextfieldController>(),
+      builder: (controller) {
+        addRows();
+        return DataTable(
+          showCheckboxColumn: false,
+          headingTextStyle:
+              MyTheme.cardValue.copyWith(fontSize: 20 * widget.scale),
+          dataTextStyle: MyTheme.cardKey
+              .copyWith(fontSize: 17 * widget.scale, letterSpacing: 0.8),
+          horizontalMargin: 0,
+          dataRowHeight: 65.0,
+          sortAscending: famSort,
+          sortColumnIndex: 0,
+          columns: [
+            DataColumn(
+              label: Text("Font Family"),
+              onSort: (columnIndex, ascending) {
+                sortByFamily(ascending);
+              },
+            ),
+            DataColumn(
+              label: Text("Type"),
+              onSort: (columnIndex, ascending) {
+                sortByType();
+              },
+            ),
+            DataColumn(label: Text("Weights"), numeric: true),
+            DataColumn(
+              label: Text("Free"),
+              onSort: (columnIndex, ascending) {
+                sortByPay();
+              },
+            ),
+          ],
+          rows: searchRows,
+        );
+      },
     );
   }
 }
@@ -231,56 +247,72 @@ class _SearchListviewState extends State<SearchListview> {
 
   @override
   Widget build(BuildContext context) {
+    SearchTextfieldController ctrlr = Get.find<SearchTextfieldController>();
     return Container(
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: loadedFonts.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            contentPadding: EdgeInsets.only(right: 20, top: 7, bottom: 12),
-            minLeadingWidth: 40,
-            leading: Container(
-              padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
-              height: 37.0,
-              decoration: BoxDecoration(
-                color: HSLColor.fromColor(_fontgenFontsController
-                        .colorMap[loadedFonts[index].type]!)
-                    .withLightness(0.73)
-                    .toColor(),
-                borderRadius: MyTheme.borderRadius / 1.5,
-              ),
-              child: Image.asset(
-                _fontgenFontsController.getImgSrc(loadedFonts[index].type),
-                color: HSLColor.fromColor(_fontgenFontsController
-                        .colorMap[loadedFonts[index].type]!)
-                    .withLightness(0.85)
-                    .toColor(),
-              ),
-            ),
-            title: Padding(
-              padding: EdgeInsets.only(bottom: 6),
-              child: Text(
-                loadedFonts[index].family,
-                style: MyTheme.cardKey,
-              ),
-            ),
-            subtitle: Text(
-              loadedFonts[index].type,
-              style: MyTheme.cardKey.copyWith(
-                  fontSize: 15, color: MyTheme.textColorLight.withOpacity(0.6)),
-            ),
-            trailing: Text(loadedFonts[index].weights.length.toString(),
-                style: MyTheme.cardKey.copyWith(
-                    color: loadedFonts[index].isPaid
-                        ? Color(0xff9b475d)
-                        : Color(0xff447c69))),
-            onTap: () {
-              print(loadedFonts[index].family);
-            },
-          );
-        },
-      ),
+      child: GetBuilder(
+          init: ctrlr,
+          builder: (controller) {
+            return ListView.builder(
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: loadedFonts.length,
+              itemBuilder: (context, index) {
+                if (ctrlr.controller.text.isEmpty ||
+                    loadedFonts[index]
+                        .family
+                        .toLowerCase()
+                        .contains(ctrlr.controller.text.toLowerCase())) {
+                  return ListTile(
+                    contentPadding:
+                        EdgeInsets.only(right: 20, top: 7, bottom: 12),
+                    minLeadingWidth: 40,
+                    leading: Container(
+                      padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
+                      height: 37.0,
+                      decoration: BoxDecoration(
+                        color: HSLColor.fromColor(_fontgenFontsController
+                                .colorMap[loadedFonts[index].type]!)
+                            .withLightness(0.73)
+                            .toColor(),
+                        borderRadius: MyTheme.borderRadius / 1.5,
+                      ),
+                      child: Image.asset(
+                        _fontgenFontsController
+                            .getImgSrc(loadedFonts[index].type),
+                        color: HSLColor.fromColor(_fontgenFontsController
+                                .colorMap[loadedFonts[index].type]!)
+                            .withLightness(0.85)
+                            .toColor(),
+                      ),
+                    ),
+                    title: Padding(
+                      padding: EdgeInsets.only(bottom: 6),
+                      child: Text(
+                        loadedFonts[index].family,
+                        style: MyTheme.cardKey,
+                      ),
+                    ),
+                    subtitle: Text(
+                      loadedFonts[index].type,
+                      style: MyTheme.cardKey.copyWith(
+                          fontSize: 15,
+                          color: MyTheme.textColorLight.withOpacity(0.6)),
+                    ),
+                    trailing: Text(loadedFonts[index].weights.length.toString(),
+                        style: MyTheme.cardKey.copyWith(
+                            color: loadedFonts[index].isPaid
+                                ? Color(0xff9b475d)
+                                : Color(0xff447c69))),
+                    onTap: () {
+                      print(loadedFonts[index].family);
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            );
+          }),
     );
   }
 }

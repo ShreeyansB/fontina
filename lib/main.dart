@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fontina/dependencies/fontgen_info_dep.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/screens/base_screen.dart';
 import 'package:get/get.dart';
 import 'package:fontina/util/theme.dart';
@@ -12,6 +13,7 @@ void main() {
   Get.put(SideMenuController());
   Get.put(FontgenInfoController());
   Get.put(FontgenFontsController());
+  Get.put(SearchTextfieldController());
   runApp(MyApp());
 }
 

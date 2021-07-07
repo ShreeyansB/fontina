@@ -1,14 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fontina/components/fonts_search.dart';
+import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/dependencies/side_navigation_dep.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:just_debounce_it/just_debounce_it.dart';
 
-class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  SearchScreen({Key? key}) : super(key: key);
 
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   Future<bool> loadSearchTable() async {
     return Future.delayed(Duration(milliseconds: 2000), () {
       return true;
@@ -17,10 +26,12 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var _size = MediaQuery.of(context).size;
     return SafeArea(
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -45,6 +56,41 @@ class SearchScreen extends StatelessWidget {
                         fontSize: 40,
                         fontWeight: FontWeight.w500)),
               ],
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Container(
+              width: Responsive.isDesktop(context)
+                  ? _size.width / 2.4
+                  : double.infinity,
+              padding: MyTheme.cardPadding / 1.5,
+              decoration: BoxDecoration(
+                borderRadius: MyTheme.borderRadius,
+                border: Border.all(color: Colors.black12, width: 1.0),
+              ),
+              child: TextField(
+                controller: Get.find<SearchTextfieldController>().controller,
+                onChanged: (value) {
+                  Debounce.milliseconds(600, () {
+                    Get.find<SearchTextfieldController>().update();
+                  });
+                },
+                style: MyTheme.cardKey.copyWith(fontSize: 20),
+                autocorrect: false,
+                cursorColor: MyTheme.primaryColorLight,
+                maxLines: 1,
+                decoration: InputDecoration(
+                  hintText: "Enter font name",
+                  hintStyle: MyTheme.cardKey.copyWith(fontSize: 20, color: Colors.black26),
+                  prefixIcon: Icon(Icons.search, color: MyTheme.primaryColorLight,),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
+              ),
             ),
             SizedBox(
               height: 20.0,
