@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:fontina/components/fonts_info_chart.dart';
+import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
@@ -49,6 +50,17 @@ class FontgenFontsController extends GetxController {
   RxList<FontgenFonts> fonts = RxList<FontgenFonts>.empty(growable: true);
   var url = Uri.parse("https://fontgen-sb.herokuapp.com/list-fonts");
   List<String> types = [];
+  List<String> weights = [
+    '100',
+    '200',
+    '300',
+    '400',
+    '500',
+    '600',
+    '700',
+    '800',
+    '900'
+  ];
   List<Color> colors = [
     Color(0xffa6dc8c),
     Color(0xff908cdc),
@@ -94,6 +106,8 @@ class FontgenFontsController extends GetxController {
           key: (item) => item,
           value: (item) => colors[types.indexOf(item)],
         );
+        Get.find<SearchFilterController>().initFilters();
+
         return true;
       } else {
         return false;

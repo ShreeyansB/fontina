@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fontina/dependencies/fontgen_info_dep.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/screens/base_screen.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ void main() {
   Get.put(FontgenInfoController());
   Get.put(FontgenFontsController());
   Get.put(SearchTextfieldController());
+  Get.put(SearchFilterController());
   runApp(MyApp());
 }
 
@@ -31,16 +33,21 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'fontina',
       theme: ThemeData.light().copyWith(
-        scaffoldBackgroundColor: MyTheme.bgColorLight,
-        primaryColor: MyTheme.primaryColorLight,
-        accentColor: MyTheme.primaryColorLight,
-        canvasColor: MyTheme.bgColorLight,
-        colorScheme: ColorScheme.fromSwatch(
-            primarySwatch: Colors.pink, accentColor: Colors.pink),
-        textTheme: GoogleFonts.karlaTextTheme(
-          Theme.of(context).textTheme.apply(bodyColor: MyTheme.textColorLight),
-        ),
-      ),
+          scaffoldBackgroundColor: MyTheme.bgColorLight,
+          primaryColor: MyTheme.primaryColorLight,
+          accentColor: MyTheme.primaryColorLight,
+          canvasColor: MyTheme.bgColorLight,
+          colorScheme: ColorScheme.fromSwatch(
+              primarySwatch: Colors.pink, accentColor: Colors.pink),
+          textTheme: GoogleFonts.karlaTextTheme(
+            Theme.of(context)
+                .textTheme
+                .apply(bodyColor: MyTheme.textColorLight),
+          ),
+          tooltipTheme: TooltipThemeData(
+              decoration: BoxDecoration(
+            color: Colors.transparent,
+          ))),
       home: BaseScreen(),
     );
   }

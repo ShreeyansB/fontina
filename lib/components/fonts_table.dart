@@ -118,6 +118,7 @@ class FontsDataTable extends StatelessWidget {
         physics: BouncingScrollPhysics() ,
         scrollDirection: Axis.horizontal,
         child: DataTable(
+          showCheckboxColumn: false,
           headingTextStyle: MyTheme.cardValue.copyWith(fontSize: 17 * scale),
           dataTextStyle: MyTheme.cardKey
               .copyWith(fontSize: 15 * scale, letterSpacing: 0.8),

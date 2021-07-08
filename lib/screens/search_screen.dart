@@ -1,7 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fontina/components/fonts_search.dart';
+import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/dependencies/side_navigation_dep.dart';
 import 'package:fontina/util/responsive.dart';
@@ -27,6 +28,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
+    var _fontsController = Get.find<FontgenFontsController>();
     return SafeArea(
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -82,8 +84,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 maxLines: 1,
                 decoration: InputDecoration(
                   hintText: "Enter font name",
-                  hintStyle: MyTheme.cardKey.copyWith(fontSize: 20, color: Colors.black26),
-                  prefixIcon: Icon(Icons.search, color: MyTheme.primaryColorLight,),
+                  hintStyle: MyTheme.cardKey
+                      .copyWith(fontSize: 20, color: Colors.black26),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: MyTheme.primaryColorLight,
+                  ),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -91,6 +97,15 @@ class _SearchScreenState extends State<SearchScreen> {
                   disabledBorder: InputBorder.none,
                 ),
               ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Wrap(
+              direction: Axis.horizontal,
+              children: [
+                MyPopupMenu(title: 'Family', options: _fontsController.types),
+              ],
             ),
             SizedBox(
               height: 20.0,
