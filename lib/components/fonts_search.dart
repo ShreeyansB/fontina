@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
@@ -76,8 +77,35 @@ class _SearchDataTableState extends State<SearchDataTable> {
     }
   }
 
+  static bool checkWeight(FontgenFonts f, Map m) {
+    for (var i = 0; i < f.weights.length; i++) {
+      if (m.containsKey(f.weights[i]) && m[f.weights[i]] == true) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static bool checkPrice(FontgenFonts f, Map m) {
+    if (f.isPaid) {
+      if (m["isPaid"]) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (m["isFree"]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   void addRows() {
     searchRows = [];
+    var filterController = Get.find<SearchFilterController>();
+
     loadedFonts.forEach((font) {
       if (Get.find<SearchTextfieldController>().controller.value.text.isEmpty ||
           font.family.toLowerCase().contains(
@@ -86,52 +114,57 @@ class _SearchDataTableState extends State<SearchDataTable> {
                   .value
                   .text
                   .toLowerCase())) {
-        searchRows.add(DataRow(
-          cells: [
-            DataCell(Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
-                  height: 41.0 * widget.scale,
-                  decoration: BoxDecoration(
-                    color: HSLColor.fromColor(
-                            _fontgenFontsController.colorMap[font.type]!)
-                        .withLightness(0.73)
-                        .toColor(),
-                    borderRadius: MyTheme.borderRadius / 1.5,
+        if (filterController.family[font.type] &&
+            checkWeight(font, filterController.weights) &&
+            checkPrice(font, filterController.price)) {
+          searchRows.add(DataRow(
+            cells: [
+              DataCell(Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
+                    height: 41.0 * widget.scale,
+                    decoration: BoxDecoration(
+                      color: HSLColor.fromColor(
+                              _fontgenFontsController.colorMap[font.type]!)
+                          .withLightness(0.73)
+                          .toColor(),
+                      borderRadius: MyTheme.borderRadius / 1.5,
+                    ),
+                    child: Image.asset(
+                      _fontgenFontsController.getImgSrc(font.type),
+                      color: HSLColor.fromColor(
+                              _fontgenFontsController.colorMap[font.type]!)
+                          .withLightness(0.85)
+                          .toColor(),
+                    ),
                   ),
-                  child: Image.asset(
-                    _fontgenFontsController.getImgSrc(font.type),
-                    color: HSLColor.fromColor(
-                            _fontgenFontsController.colorMap[font.type]!)
-                        .withLightness(0.85)
-                        .toColor(),
+                  SizedBox(
+                    width: 15,
                   ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
+                  Text(
+                    font.family,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              )),
+              DataCell(Text(font.type, overflow: TextOverflow.ellipsis)),
+              DataCell(Text(font.weights.length.toString())),
+              DataCell(
                 Text(
-                  font.family,
-                  overflow: TextOverflow.ellipsis,
+                  font.isPaid ? "No" : "Yes",
+                  style: TextStyle(
+                      color:
+                          font.isPaid ? Color(0xff9b475d) : Color(0xff447c69)),
                 ),
-              ],
-            )),
-            DataCell(Text(font.type, overflow: TextOverflow.ellipsis)),
-            DataCell(Text(font.weights.length.toString())),
-            DataCell(
-              Text(
-                font.isPaid ? "No" : "Yes",
-                style: TextStyle(
-                    color: font.isPaid ? Color(0xff9b475d) : Color(0xff447c69)),
               ),
-            ),
-          ],
-          onSelectChanged: (value) {
-            print(font.family);
-          },
-        ));
+            ],
+            onSelectChanged: (value) {
+              print(font.family);
+            },
+          ));
+        }
       }
     });
   }
@@ -185,42 +218,45 @@ class _SearchDataTableState extends State<SearchDataTable> {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder(
-      init: Get.find<SearchTextfieldController>(),
+    return GetBuilder<SearchFilterController>(
       builder: (controller) {
-        addRows();
-        return DataTable(
-          showCheckboxColumn: false,
-          headingTextStyle:
-              MyTheme.cardValue.copyWith(fontSize: 20 * widget.scale),
-          dataTextStyle: MyTheme.cardKey
-              .copyWith(fontSize: 17 * widget.scale, letterSpacing: 0.8),
-          horizontalMargin: 0,
-          dataRowHeight: 65.0,
-          sortAscending: famSort,
-          sortColumnIndex: 0,
-          columns: [
-            DataColumn(
-              label: Text("Font Family"),
-              onSort: (columnIndex, ascending) {
-                sortByFamily(ascending);
-              },
-            ),
-            DataColumn(
-              label: Text("Type"),
-              onSort: (columnIndex, ascending) {
-                sortByType();
-              },
-            ),
-            DataColumn(label: Text("Weights"), numeric: true),
-            DataColumn(
-              label: Text("Free"),
-              onSort: (columnIndex, ascending) {
-                sortByPay();
-              },
-            ),
-          ],
-          rows: searchRows,
+        return GetBuilder<SearchTextfieldController>(
+          builder: (controller) {
+            addRows();
+            return DataTable(
+              showCheckboxColumn: false,
+              headingTextStyle:
+                  MyTheme.cardValue.copyWith(fontSize: 20 * widget.scale),
+              dataTextStyle: MyTheme.cardKey
+                  .copyWith(fontSize: 17 * widget.scale, letterSpacing: 0.8),
+              horizontalMargin: 0,
+              dataRowHeight: 65.0,
+              sortAscending: famSort,
+              sortColumnIndex: 0,
+              columns: [
+                DataColumn(
+                  label: Text("Font Family"),
+                  onSort: (columnIndex, ascending) {
+                    sortByFamily(ascending);
+                  },
+                ),
+                DataColumn(
+                  label: Text("Type"),
+                  onSort: (columnIndex, ascending) {
+                    sortByType();
+                  },
+                ),
+                DataColumn(label: Text("Weights"), numeric: true),
+                DataColumn(
+                  label: Text("Free"),
+                  onSort: (columnIndex, ascending) {
+                    sortByPay();
+                  },
+                ),
+              ],
+              rows: searchRows,
+            );
+          },
         );
       },
     );
@@ -245,23 +281,52 @@ class _SearchListviewState extends State<SearchListview> {
     loadedFonts.sort((a, b) => a.family.compareTo(b.family));
   }
 
+  static bool checkWeight(FontgenFonts f, Map m) {
+    for (var i = 0; i < f.weights.length; i++) {
+      if (m.containsKey(f.weights[i]) && m[f.weights[i]] == true) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  static bool checkPrice(FontgenFonts f, Map m) {
+    if (f.isPaid) {
+      if (m["isPaid"]) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (m["isFree"]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SearchTextfieldController ctrlr = Get.find<SearchTextfieldController>();
+    var filterController = Get.find<SearchFilterController>();
     return Container(
-      child: GetBuilder(
-          init: ctrlr,
-          builder: (controller) {
-            return ListView.builder(
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: loadedFonts.length,
-              itemBuilder: (context, index) {
-                if (ctrlr.controller.text.isEmpty ||
-                    loadedFonts[index]
-                        .family
-                        .toLowerCase()
-                        .contains(ctrlr.controller.text.toLowerCase())) {
+      child: GetBuilder<SearchFilterController>(
+        builder: (controller) =>
+            GetBuilder<SearchTextfieldController>(builder: (controller) {
+          return ListView.builder(
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: loadedFonts.length,
+            itemBuilder: (context, index) {
+              if (ctrlr.controller.text.isEmpty ||
+                  loadedFonts[index]
+                      .family
+                      .toLowerCase()
+                      .contains(ctrlr.controller.text.toLowerCase())) {
+                if (filterController.family[loadedFonts[index].type] &&
+                    checkWeight(loadedFonts[index], filterController.weights) &&
+                    checkPrice(loadedFonts[index], filterController.price)) {
                   return ListTile(
                     contentPadding:
                         EdgeInsets.only(right: 20, top: 7, bottom: 12),
@@ -310,9 +375,13 @@ class _SearchListviewState extends State<SearchListview> {
                 } else {
                   return Container();
                 }
-              },
-            );
-          }),
+              } else {
+                return Container();
+              }
+            },
+          );
+        }),
+      ),
     );
   }
 }

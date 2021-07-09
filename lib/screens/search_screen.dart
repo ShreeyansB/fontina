@@ -103,8 +103,13 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Wrap(
               direction: Axis.horizontal,
+              runSpacing: 20,
               children: [
                 MyPopupMenu(title: 'Family', options: _fontsController.types),
+                SizedBox(width: 20,),
+                MyPopupMenu(title: 'Weights', options: _fontsController.weights),
+                SizedBox(width: 20,),
+                MyPopupMenu(title: 'Price', options: ["isPaid", "isFree"]),
               ],
             ),
             SizedBox(

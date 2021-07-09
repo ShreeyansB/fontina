@@ -73,11 +73,29 @@ class DetailsScreen extends StatelessWidget {
                       SizedBox(
                         height: 20,
                       ),
-                      Responsive(
-                        desktop: FontFamilyGrid(crossAxisCount: 4),
-                        tablet: FontFamilyGrid(crossAxisCount: 3),
-                        mobile: FontFamilyGrid(crossAxisCount: 2),
-                      ),
+                      FutureBuilder(
+                          future: loadDetails(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return Responsive(
+                                desktop: FontFamilyGrid(crossAxisCount: 4),
+                                tablet: FontFamilyGrid(crossAxisCount: 3),
+                                mobile: FontFamilyGrid(crossAxisCount: 2),
+                              );
+                            }
+                            return Container(
+                              width: double.infinity,
+                              height: 300,
+                              child: Center(
+                                  child: SizedBox(
+                                width: 60,
+                                height: 60,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 4.0,
+                                ),
+                              )),
+                            );
+                          }),
                       if (!Responsive.isDesktop(context))
                         SizedBox(
                           height: MyTheme.defaultPadding,
