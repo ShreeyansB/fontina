@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
+import 'package:fontina/screens/font_details_screen.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
@@ -118,6 +119,7 @@ class _SearchDataTableState extends State<SearchDataTable> {
             checkWeight(font, filterController.weights) &&
             checkPrice(font, filterController.price)) {
           searchRows.add(DataRow(
+
             cells: [
               DataCell(Row(
                 mainAxisSize: MainAxisSize.min,
@@ -148,7 +150,8 @@ class _SearchDataTableState extends State<SearchDataTable> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
-              )),
+              ),
+              ),
               DataCell(Text(font.type, overflow: TextOverflow.ellipsis)),
               DataCell(Text(font.weights.length.toString())),
               DataCell(
@@ -161,7 +164,7 @@ class _SearchDataTableState extends State<SearchDataTable> {
               ),
             ],
             onSelectChanged: (value) {
-              print(font.family);
+              Get.to(() => FontDetailsScreen(font: font), transition: Transition.zoom, duration: Duration(milliseconds: 420), curve: Curves.easeOutBack,);
             },
           ));
         }
@@ -369,7 +372,7 @@ class _SearchListviewState extends State<SearchListview> {
                                 ? Color(0xff9b475d)
                                 : Color(0xff447c69))),
                     onTap: () {
-                      print(loadedFonts[index].family);
+                      Get.to(() => FontDetailsScreen(font: loadedFonts[index]), transition: Transition.zoom, duration: Duration(milliseconds: 420), curve: Curves.easeOutBack,);
                     },
                   );
                 } else {

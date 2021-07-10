@@ -5,6 +5,7 @@ import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/dependencies/side_navigation_dep.dart';
+import 'package:fontina/screens/font_details_screen.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
@@ -29,6 +30,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
     var _fontsController = Get.find<FontgenFontsController>();
+    // Get.to(() => FontDetailsScreen(font: _fontsController.fonts[14]));
     return SafeArea(
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),

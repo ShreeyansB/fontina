@@ -30,4 +30,5 @@ class MyTheme {
       fontSize: 40.0,
       fontWeight: FontWeight.w800,
       color: MyTheme.textColorLight);
+
 }
