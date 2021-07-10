@@ -164,7 +164,7 @@ class _SearchDataTableState extends State<SearchDataTable> {
               ),
             ],
             onSelectChanged: (value) {
-              Get.to(() => FontDetailsScreen(font: font), transition: Transition.zoom, duration: Duration(milliseconds: 420), curve: Curves.easeOutBack,);
+              Get.to(() => FontDetailsScreen(font: font), transition: Transition.zoom, duration: Duration(milliseconds: 340), curve: Curves.easeOutBack,);
             },
           ));
         }
@@ -372,7 +372,7 @@ class _SearchListviewState extends State<SearchListview> {
                                 ? Color(0xff9b475d)
                                 : Color(0xff447c69))),
                     onTap: () {
-                      Get.to(() => FontDetailsScreen(font: loadedFonts[index]), transition: Transition.zoom, duration: Duration(milliseconds: 420), curve: Curves.easeOutBack,);
+                      Get.to(() => FontDetailsScreen(font: loadedFonts[index]), transition: Transition.zoom, duration: Duration(milliseconds: 340), curve: Curves.easeOutBack,);
                     },
                   );
                 } else {

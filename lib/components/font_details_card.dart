@@ -24,7 +24,7 @@ class FontDetailsCard extends StatelessWidget {
     var fontsController = Get.find<FontgenFontsController>();
     var size = MediaQuery.of(context).size;
     return Container(
-      width: 570,
+      width: 600,
       decoration: BoxDecoration(
         borderRadius: MyTheme.borderRadius,
         color: (fontsController.colorMap[font.type] != null)
@@ -34,13 +34,13 @@ class FontDetailsCard extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: 0,
+            top: 11,
             right: 0,
             child: Image.asset(
               "assets/images/${font.type.replaceAll(' ', '')}-bg.png",
               height: 250,
               color: (fontsController.colorMap[font.type] != null)
-                  ? colorLightness(fontsController.colorMap[font.type]!, 0.77)
+                  ? colorLightness(fontsController.colorMap[font.type]!, 0.73)
                   : Colors.pink,
             ),
           ),
@@ -90,11 +90,11 @@ class FontDetailsCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "Family :  ",
+                      "Type :  ",
                       style: MyTheme.cardKey,
                     ),
                     Text(
-                      font.family,
+                      font.type,
                       style: MyTheme.cardValue,
                     ),
                   ],
