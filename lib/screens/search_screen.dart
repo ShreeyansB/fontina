@@ -30,7 +30,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
     var _fontsController = Get.find<FontgenFontsController>();
-    // Get.to(() => FontDetailsScreen(font: _fontsController.fonts[14]));
+    Get.to(() => FontDetailsScreen(font: _fontsController.fonts[14]));
     return SafeArea(
       child: SingleChildScrollView(
         physics: BouncingScrollPhysics(),

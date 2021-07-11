@@ -78,8 +78,8 @@ class _MyPopupMenuState extends State<MyPopupMenu> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Opacity(
-                        opacity: filter[widget.options[index]] ? 1 : 0.22,
-                        child: Icon(Icons.done_rounded)),
+                        opacity: filter[widget.options[index]] ? 1 : 0.27,
+                        child: Icon(Icons.done_rounded, color: MyTheme.textColorSecondary,)),
                     SizedBox(
                       width: 10,
                     ),
