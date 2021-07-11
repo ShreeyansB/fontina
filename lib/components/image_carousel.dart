@@ -5,6 +5,7 @@ import 'package:fontina/components/image_viewer.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
+import 'package:image_pixels/image_pixels.dart';
 
 class ImageCarousel extends StatelessWidget {
   const ImageCarousel({Key? key, required this.font, required this.isRow})
@@ -23,20 +24,34 @@ class ImageCarousel extends StatelessWidget {
             itemCount: font.showcaseImg,
             loop: true,
             autoplay: true,
-            autoplayDelay: 5000,
+            autoplayDelay: 4000,
+            autoplayDisableOnInteraction: true,
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: () => Get.to(() => ImageViewer(imgURL: "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png"), transition: Transition.zoom, duration: Duration(milliseconds: 340), curve: Curves.easeOutBack,),
+                onTap: () => Get.to(
+                  () => ImageViewer(
+                      imgURL:
+                          "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png"),
+                  transition: Transition.zoom,
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.easeOutBack,
+                ),
                 child: CachedNetworkImage(
                   imageUrl:
                       "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png",
-                  imageBuilder: (context, imageProvider) => Container(
-                    // margin: EdgeInsets.symmetric(horizontal: 25),
-                    decoration: BoxDecoration(
-                      borderRadius: MyTheme.borderRadius,
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.fitWidth,
+                  imageBuilder: (context, imageProvider) => ClipRRect(
+                    borderRadius: MyTheme.borderRadius,
+                    child: ImagePixels.container(
+                      imageProvider: imageProvider,
+                                                colorAlignment: Alignment.topLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: MyTheme.borderRadius,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -52,39 +67,54 @@ class ImageCarousel extends StatelessWidget {
       );
     } else {
       return SizedBox(
-        height: _size.width > 684 ? 320 : 240,
-        width: 800,
-        child: Swiper(
-          itemCount: font.showcaseImg,
-          loop: true,
-          autoplay: true,
-          autoplayDelay: 5000,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () => Get.to(() => ImageViewer(imgURL: "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png"), transition: Transition.zoom, duration: Duration(milliseconds: 340), curve: Curves.easeOutBack,),
-              child: CachedNetworkImage(
-                imageUrl:
-                    "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png",
-                imageBuilder: (context, imageProvider) => Container(
-                  // margin: EdgeInsets.symmetric(horizontal: 25),
-                  decoration: BoxDecoration(
-                    borderRadius: MyTheme.borderRadius,
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.fitWidth,
-                    ),
+          height: _size.width > 684 ? 320 : 240,
+          width: 800,
+          child: Swiper(
+            itemCount: font.showcaseImg,
+            loop: true,
+            autoplay: true,
+            autoplayDelay: 4000,
+            autoplayDisableOnInteraction: true,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () => Get.to(
+                  () => ImageViewer(
+                      imgURL:
+                          "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png"),
+                  transition: Transition.zoom,
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.easeOutBack,
+                ),
+                child: Container(
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png",
+                    imageBuilder: (context, imageProvider) =>
+                        ClipRRect(
+                          borderRadius: MyTheme.borderRadius,
+                          child: ImagePixels.container(
+                                              imageProvider: imageProvider,
+                                              colorAlignment: Alignment.topLeft,
+                                              child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: MyTheme.borderRadius,
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                                              ),
+                                            ),
+                        ),
+                    placeholder: (context, url) => SizedBox(
+                        height: 100,
+                        child: Center(child: CircularProgressIndicator())),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
-                placeholder: (context, url) => SizedBox(
-                    height: 100,
-                    child: Center(child: CircularProgressIndicator())),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            );
-          },
-        ),
-      );
+              );
+            },
+          ));
     }
   }
 }
-

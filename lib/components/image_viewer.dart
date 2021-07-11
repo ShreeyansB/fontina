@@ -51,7 +51,7 @@ class _ImageViewerState extends State<ImageViewer>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 400),
+      duration: Duration(milliseconds: 200),
     )..addListener(() {
         _transformationController.value = _animation.value;
       });
@@ -65,35 +65,35 @@ class _ImageViewerState extends State<ImageViewer>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: MyTheme.bgColorLight,
-        appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: IconButton(
-              onPressed: () => Get.back(),
-              icon: Icon(Icons.arrow_back_ios_rounded),
-              iconSize: 30,
-              color: MyTheme.primaryColorLight,
-            ),
+    return Scaffold(
+      backgroundColor: MyTheme.bgColorLight,
+      appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: IconButton(
+            onPressed: () => Get.back(),
+            icon: Icon(Icons.arrow_back_ios_rounded),
+            iconSize: 30,
+            color: MyTheme.primaryColorLight,
           ),
-          toolbarHeight: 80,
-          title: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              widget.imgURL
-                  .replaceAll("https://fontgen-sb.herokuapp.com/download/", ""),
-              style: GoogleFonts.spaceGrotesk().copyWith(
-                  fontSize: 27,
-                  color: MyTheme.primaryColorLight,
-                  fontWeight: FontWeight.w700),
-            ),
-          ),
-          elevation: 1,
-          backgroundColor: context.theme.scaffoldBackgroundColor,
         ),
-        body: InteractiveViewer(
+        toolbarHeight: 80,
+        title: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Text(
+            widget.imgURL
+                .replaceAll("https://fontgen-sb.herokuapp.com/download/", ""),
+            style: GoogleFonts.spaceGrotesk().copyWith(
+                fontSize: 27,
+                color: MyTheme.primaryColorLight,
+                fontWeight: FontWeight.w700),
+          ),
+        ),
+        elevation: 1,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+      ),
+      body: SafeArea(
+        child: InteractiveViewer(
           transformationController: _transformationController,
           child: GestureDetector(
             onDoubleTap: _handleDoubleTap,

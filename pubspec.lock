@@ -184,6 +184,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  image_pixels:
+    dependency: "direct main"
+    description:
+      name: image_pixels
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   intl:
     dependency: "direct main"
     description:
