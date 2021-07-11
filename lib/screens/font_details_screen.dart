@@ -17,6 +17,7 @@ class FontDetailsScreen extends StatelessWidget {
     var _size = MediaQuery.of(context).size;
     return SafeArea(
         child: Scaffold(
+      backgroundColor: MyTheme.bgColorLight,
       appBar: AppBar(
         leading: Padding(
           padding: const EdgeInsets.only(left: 10),
@@ -41,28 +42,36 @@ class FontDetailsScreen extends StatelessWidget {
         elevation: 1,
         backgroundColor: context.theme.scaffoldBackgroundColor,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(40.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FontDetailsCard(font: font),
-                  if (_size.width > 1345)
+              if (_size.width > 1345)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FontDetailsCard(font: font),
                     SizedBox(
                       width: 20,
                     ),
-                  if (_size.width > 1345) ImageCarousel(font: font, isRow: true,),
-                ],
-              ),
+                    ImageCarousel(
+                      font: font,
+                      isRow: true,
+                    ),
+                  ],
+                ),
+              if (_size.width <= 1345) FontDetailsCard(font: font),
               if (_size.width <= 1345)
                 SizedBox(
                   height: 20,
                 ),
-              if (_size.width <= 1345) ImageCarousel(font: font, isRow: false,),
+              if (_size.width <= 1345)
+                ImageCarousel(
+                  font: font,
+                  isRow: false,
+                ),
             ],
           ),
         ),

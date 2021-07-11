@@ -24,7 +24,7 @@ class FontDetailsCard extends StatelessWidget {
     var fontsController = Get.find<FontgenFontsController>();
     var size = MediaQuery.of(context).size;
     return Container(
-      width: 600,
+      width: 620,
       decoration: BoxDecoration(
         borderRadius: MyTheme.borderRadius,
         color: (fontsController.colorMap[font.type] != null)
