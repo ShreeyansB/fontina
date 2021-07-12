@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fontina/dependencies/fontgen_info_dep.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
@@ -9,6 +11,7 @@ import 'package:fontina/util/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dependencies/side_navigation_dep.dart';
 import 'package:universal_html/html.dart';
+import 'dart:io' as Plat show Platform;
 
 void main() {
   Get.put(SideMenuController());
@@ -28,6 +31,15 @@ class MyApp extends StatelessWidget {
     final loader = document.getElementsByClassName("lds-ring");
     if (loader.isNotEmpty) {
       loader.first.remove();
+    }
+    if (!kIsWeb) {
+      if (Plat.Platform.isAndroid || Plat.Platform.isIOS) {
+        SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            systemNavigationBarColor: Colors.white,
+            statusBarBrightness: Brightness.light,
+            systemNavigationBarIconBrightness: Brightness.light));
+      }
     }
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

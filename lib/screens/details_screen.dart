@@ -13,7 +13,7 @@ class DetailsScreen extends StatelessWidget {
   DetailsScreen({Key? key}) : super(key: key);
 
   Future<bool> loadDetails() async {
-    return Future.delayed(Duration(milliseconds: 2000), () {
+    return Future.delayed(Duration(milliseconds: 1300), () {
       return true;
     });
   }

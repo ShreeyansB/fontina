@@ -36,29 +36,32 @@ class ImageCarousel extends StatelessWidget {
                   duration: Duration(milliseconds: 200),
                   curve: Curves.easeOutBack,
                 ),
-                child: CachedNetworkImage(
-                  imageUrl:
-                      "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png",
-                  imageBuilder: (context, imageProvider) => ClipRRect(
-                    borderRadius: MyTheme.borderRadius,
-                    child: ImagePixels.container(
-                      imageProvider: imageProvider,
-                                                colorAlignment: Alignment.topLeft,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: MyTheme.borderRadius,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.contain,
+                child: Hero(
+                  tag: "photo",
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png",
+                    imageBuilder: (context, imageProvider) => ClipRRect(
+                      borderRadius: MyTheme.borderRadius,
+                      child: ImagePixels.container(
+                        imageProvider: imageProvider,
+                        colorAlignment: Alignment.topLeft,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: MyTheme.borderRadius,
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
                     ),
+                    placeholder: (context, url) => SizedBox(
+                        height: 100,
+                        child: Center(child: CircularProgressIndicator())),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
-                  placeholder: (context, url) => SizedBox(
-                      height: 100,
-                      child: Center(child: CircularProgressIndicator())),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               );
             },
@@ -86,30 +89,32 @@ class ImageCarousel extends StatelessWidget {
                   curve: Curves.easeOutBack,
                 ),
                 child: Container(
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png",
-                    imageBuilder: (context, imageProvider) =>
-                        ClipRRect(
-                          borderRadius: MyTheme.borderRadius,
-                          child: ImagePixels.container(
-                                              imageProvider: imageProvider,
-                                              colorAlignment: Alignment.topLeft,
-                                              child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: MyTheme.borderRadius,
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.contain,
+                  child: Hero(
+                    tag: "photo",
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          "https://fontgen-sb.herokuapp.com/download/${font.family}-${index + 1}.png",
+                      imageBuilder: (context, imageProvider) => ClipRRect(
+                        borderRadius: MyTheme.borderRadius,
+                        child: ImagePixels.container(
+                          imageProvider: imageProvider,
+                          colorAlignment: Alignment.topLeft,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: MyTheme.borderRadius,
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.contain,
+                              ),
                             ),
                           ),
-                                              ),
-                                            ),
                         ),
-                    placeholder: (context, url) => SizedBox(
-                        height: 100,
-                        child: Center(child: CircularProgressIndicator())),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                      ),
+                      placeholder: (context, url) => SizedBox(
+                          height: 100,
+                          child: Center(child: CircularProgressIndicator())),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                   ),
                 ),
               );
