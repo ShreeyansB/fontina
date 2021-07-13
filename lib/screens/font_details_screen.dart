@@ -7,6 +7,7 @@ import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/dependencies/storage_dep.dart';
+import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -86,6 +87,7 @@ class _FontDetailsScreenState extends State<FontDetailsScreen>
           padding: const EdgeInsets.only(left: 3),
           child: LikeButton(
                 size: 20,
+                animationDuration: Duration(milliseconds: 500),
                 isLiked: isFav.value,
                 onTap: onLikeTap,
               ),
@@ -98,7 +100,7 @@ class _FontDetailsScreenState extends State<FontDetailsScreen>
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.all(40.0),
+              padding: Responsive.isMobile(context) ? EdgeInsets.all(18.0) : EdgeInsets.all(40.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

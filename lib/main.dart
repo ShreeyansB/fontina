@@ -38,9 +38,10 @@ class MyApp extends StatelessWidget {
     if (!kIsWeb) {
       if (Plat.Platform.isAndroid || Plat.Platform.isIOS) {
         SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            statusBarColor: Colors.transparent,
+            statusBarColor: Colors.white,
             systemNavigationBarColor: Colors.white,
             statusBarBrightness: Brightness.light,
+            statusBarIconBrightness: Brightness.dark,
             systemNavigationBarIconBrightness: Brightness.light));
       }
     }

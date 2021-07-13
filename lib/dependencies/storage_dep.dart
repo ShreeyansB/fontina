@@ -36,6 +36,7 @@ class StorageController extends GetxController {
     for (var fav in favorites) {
       if(fav["family"] == font.family && fav["url"] == font.url) {
         favorites.remove(fav);
+        break;
       }
     }
     saveToStorage();

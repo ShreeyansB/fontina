@@ -96,7 +96,6 @@ class _SearchDataTableState extends State<SearchDataTable> {
         }
       }
       loadedFonts = newFonts;
-      print(loadedFonts);
     }
   }
 
@@ -329,6 +328,22 @@ class _SearchListviewState extends State<SearchListview> {
   List<FontgenFonts> loadedFonts = [];
   var storageController = Get.find<StorageController>();
 
+  void checkFavs() {
+    if (widget.isFav) {
+      List<FontgenFonts> newFonts = [];
+      for (var i = 0; i < loadedFonts.length; i++) {
+        for (var j = 0; j < storageController.favorites.length; j++) {
+          if (storageController.favorites[j]["family"] ==
+              loadedFonts[i].family) {
+            newFonts.add(loadedFonts[i]);
+            break;
+          }
+        }
+      }
+      loadedFonts = newFonts;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -439,7 +454,12 @@ class _SearchListviewState extends State<SearchListview> {
                         transition: Transition.zoom,
                         duration: Duration(milliseconds: 340),
                         curve: Curves.easeOutBack,
-                      );
+                      )!
+                  .then((value) {
+                setState(() {
+                  checkFavs();
+                });
+              });;
                     },
                   );
                 } else {
