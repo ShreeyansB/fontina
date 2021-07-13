@@ -5,7 +5,6 @@ import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/dependencies/side_navigation_dep.dart';
-import 'package:fontina/screens/font_details_screen.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
@@ -21,7 +20,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   Future<bool> loadSearchTable() async {
-    return Future.delayed(Duration(milliseconds: 2000), () {
+    return Future.delayed(Duration(milliseconds: 1100), () {
       return true;
     });
   }
@@ -121,7 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
               future: loadSearchTable(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return FontsSearchTable();
+                  return FontsSearchTable(isFav: false,);
                 }
                 return Container(
                   width: double.infinity,

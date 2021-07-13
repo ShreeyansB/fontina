@@ -102,23 +102,20 @@ class _ImageViewerState extends State<ImageViewer>
               padding: EdgeInsets.all(Responsive.isDesktop(context)
                   ? 150
                   : (Responsive.isTablet(context) ? 75 : 0)),
-              child: Hero(
-                tag: "photo",
-                child: CachedNetworkImage(
-                  imageUrl: widget.imgURL,
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.contain,
-                      ),
+              child: CachedNetworkImage(
+                imageUrl: widget.imgURL,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.contain,
                     ),
                   ),
-                  placeholder: (context, url) => SizedBox(
-                      height: 100,
-                      child: Center(child: CircularProgressIndicator())),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+                placeholder: (context, url) => SizedBox(
+                    height: 100,
+                    child: Center(child: CircularProgressIndicator())),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
           ),
@@ -230,34 +227,31 @@ class _ImageViewerParaState extends State<ImageViewerPara>
               padding: EdgeInsets.all(Responsive.isDesktop(context)
                   ? 150
                   : (Responsive.isTablet(context) ? 75 : 0)),
-              child: Hero(
-                tag: "photo",
-                child: CachedNetworkImage(
-                  imageUrl: widget.imgURL,
-                  imageBuilder: (context, imageProvider) => Container(
+              child: CachedNetworkImage(
+                imageUrl: widget.imgURL,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                      borderRadius: MyTheme.borderRadius,
+                      color: widget.isDark
+                          ? Color(0xff260F26)
+                          : Colors.tealAccent),
+                  child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: MyTheme.borderRadius,
-                        color: widget.isDark
-                            ? Color(0xff260F26)
-                            : Colors.tealAccent),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.contain,
-                            colorFilter: ColorFilter.mode(
-                                widget.isDark
-                                    ? Color(0xffFDCFF3)
-                                    : Color(0xff413D5D),
-                                BlendMode.srcATop)),
-                      ),
+                      image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.contain,
+                          colorFilter: ColorFilter.mode(
+                              widget.isDark
+                                  ? Color(0xffFDCFF3)
+                                  : Color(0xff413D5D),
+                              BlendMode.srcATop)),
                     ),
                   ),
-                  placeholder: (context, url) => SizedBox(
-                      height: 100,
-                      child: Center(child: CircularProgressIndicator())),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+                placeholder: (context, url) => SizedBox(
+                    height: 100,
+                    child: Center(child: CircularProgressIndicator())),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
           ),
@@ -367,23 +361,20 @@ class _ImageViewerCodeState extends State<ImageViewerCode>
               padding: EdgeInsets.all(Responsive.isDesktop(context)
                   ? 150
                   : (Responsive.isTablet(context) ? 75 : 0)),
-              child: Hero(
-                tag: "photo",
-                child: CachedNetworkImage(
-                  imageUrl: widget.imgURL,
-                  imageBuilder: (context, imageProvider) => Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: imageProvider,
-                        fit: BoxFit.contain,
-                      ),
+              child: CachedNetworkImage(
+                imageUrl: widget.imgURL,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.contain,
                     ),
                   ),
-                  placeholder: (context, url) => SizedBox(
-                      height: 100,
-                      child: Center(child: CircularProgressIndicator())),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
+                placeholder: (context, url) => SizedBox(
+                    height: 100,
+                    child: Center(child: CircularProgressIndicator())),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
           ),

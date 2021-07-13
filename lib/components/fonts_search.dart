@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
+import 'package:fontina/dependencies/storage_dep.dart';
 import 'package:fontina/screens/font_details_screen.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 
-class FontsSearchTable extends StatelessWidget {
-  const FontsSearchTable({Key? key}) : super(key: key);
+class FontsSearchTable extends StatefulWidget {
+  const FontsSearchTable({Key? key, required this.isFav}) : super(key: key);
+  final bool isFav;
 
+  @override
+  _FontsSearchTableState createState() => _FontsSearchTableState();
+}
+
+class _FontsSearchTableState extends State<FontsSearchTable> {
   @override
   Widget build(BuildContext context) {
     if (!Responsive.isMobile(context)) {
@@ -34,6 +41,7 @@ class FontsSearchTable extends StatelessWidget {
               width: double.infinity,
               child: SearchDataTable(
                 scale: 1,
+                isFav: widget.isFav,
               ),
             ),
           ],
@@ -47,7 +55,9 @@ class FontsSearchTable extends StatelessWidget {
           children: [
             SizedBox(
               width: double.infinity,
-              child: SearchListview(),
+              child: SearchListview(
+                isFav: widget.isFav,
+              ),
             ),
           ],
         ),
@@ -57,8 +67,10 @@ class FontsSearchTable extends StatelessWidget {
 }
 
 class SearchDataTable extends StatefulWidget {
-  SearchDataTable({Key? key, required this.scale}) : super(key: key);
+  SearchDataTable({Key? key, required this.scale, required this.isFav})
+      : super(key: key);
   final double scale;
+  final bool isFav;
 
   @override
   _SearchDataTableState createState() => _SearchDataTableState();
@@ -69,10 +81,38 @@ class _SearchDataTableState extends State<SearchDataTable> {
   final _fontgenFontsController = Get.find<FontgenFontsController>();
   List<FontgenFonts> loadedFonts = [];
   bool famSort = true;
+  var storageController = Get.find<StorageController>();
+
+  void checkFavs() {
+    if (widget.isFav) {
+      List<FontgenFonts> newFonts = [];
+      for (var i = 0; i < loadedFonts.length; i++) {
+        for (var j = 0; j < storageController.favorites.length; j++) {
+          if (storageController.favorites[j]["family"] ==
+              loadedFonts[i].family) {
+            newFonts.add(loadedFonts[i]);
+            break;
+          }
+        }
+      }
+      loadedFonts = newFonts;
+      print(loadedFonts);
+    }
+  }
 
   void initRows() {
     if (_fontgenFontsController.fonts.isNotEmpty) {
-      loadedFonts = _fontgenFontsController.fonts;
+      if (widget.isFav) {
+        _fontgenFontsController.fonts.forEach((font) {
+          storageController.favorites.forEach((fav) {
+            if (font.family == fav["family"]) {
+              loadedFonts.add(font);
+            }
+          });
+        });
+      } else {
+        loadedFonts = _fontgenFontsController.fonts;
+      }
       loadedFonts.sort((a, b) => a.family.compareTo(b.family));
       addRows();
     }
@@ -119,38 +159,38 @@ class _SearchDataTableState extends State<SearchDataTable> {
             checkWeight(font, filterController.weights) &&
             checkPrice(font, filterController.price)) {
           searchRows.add(DataRow(
-
             cells: [
-              DataCell(Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
-                    height: 41.0 * widget.scale,
-                    decoration: BoxDecoration(
-                      color: HSLColor.fromColor(
-                              _fontgenFontsController.colorMap[font.type]!)
-                          .withLightness(0.73)
-                          .toColor(),
-                      borderRadius: MyTheme.borderRadius / 1.5,
+              DataCell(
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(MyTheme.defaultPadding / 5),
+                      height: 41.0 * widget.scale,
+                      decoration: BoxDecoration(
+                        color: HSLColor.fromColor(
+                                _fontgenFontsController.colorMap[font.type]!)
+                            .withLightness(0.73)
+                            .toColor(),
+                        borderRadius: MyTheme.borderRadius / 1.5,
+                      ),
+                      child: Image.asset(
+                        _fontgenFontsController.getImgSrc(font.type),
+                        color: HSLColor.fromColor(
+                                _fontgenFontsController.colorMap[font.type]!)
+                            .withLightness(0.85)
+                            .toColor(),
+                      ),
                     ),
-                    child: Image.asset(
-                      _fontgenFontsController.getImgSrc(font.type),
-                      color: HSLColor.fromColor(
-                              _fontgenFontsController.colorMap[font.type]!)
-                          .withLightness(0.85)
-                          .toColor(),
+                    SizedBox(
+                      width: 15,
                     ),
-                  ),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Text(
-                    font.family,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+                    Text(
+                      font.family,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
               DataCell(Text(font.type, overflow: TextOverflow.ellipsis)),
               DataCell(Text(font.weights.length.toString())),
@@ -164,7 +204,17 @@ class _SearchDataTableState extends State<SearchDataTable> {
               ),
             ],
             onSelectChanged: (value) {
-              Get.to(() => FontDetailsScreen(font: font), transition: Transition.zoom, duration: Duration(milliseconds: 340), curve: Curves.easeOutBack,);
+              Get.to(
+                () => FontDetailsScreen(font: font),
+                transition: Transition.zoom,
+                duration: Duration(milliseconds: 340),
+                curve: Curves.easeOutBack,
+              )!
+                  .then((value) {
+                setState(() {
+                  checkFavs();
+                });
+              });
             },
           ));
         }
@@ -267,7 +317,8 @@ class _SearchDataTableState extends State<SearchDataTable> {
 }
 
 class SearchListview extends StatefulWidget {
-  const SearchListview({Key? key}) : super(key: key);
+  const SearchListview({Key? key, required this.isFav}) : super(key: key);
+  final bool isFav;
 
   @override
   _SearchListviewState createState() => _SearchListviewState();
@@ -276,11 +327,22 @@ class SearchListview extends StatefulWidget {
 class _SearchListviewState extends State<SearchListview> {
   final _fontgenFontsController = Get.find<FontgenFontsController>();
   List<FontgenFonts> loadedFonts = [];
+  var storageController = Get.find<StorageController>();
 
   @override
   void initState() {
     super.initState();
-    loadedFonts = _fontgenFontsController.fonts;
+    if (widget.isFav) {
+      _fontgenFontsController.fonts.forEach((font) {
+        storageController.favorites.forEach((fav) {
+          if (font.family == fav["family"]) {
+            loadedFonts.add(font);
+          }
+        });
+      });
+    } else {
+      loadedFonts = _fontgenFontsController.fonts;
+    }
     loadedFonts.sort((a, b) => a.family.compareTo(b.family));
   }
 
@@ -372,7 +434,12 @@ class _SearchListviewState extends State<SearchListview> {
                                 ? Color(0xff9b475d)
                                 : Color(0xff447c69))),
                     onTap: () {
-                      Get.to(() => FontDetailsScreen(font: loadedFonts[index]), transition: Transition.zoom, duration: Duration(milliseconds: 340), curve: Curves.easeOutBack,);
+                      Get.to(
+                        () => FontDetailsScreen(font: loadedFonts[index]),
+                        transition: Transition.zoom,
+                        duration: Duration(milliseconds: 340),
+                        curve: Curves.easeOutBack,
+                      );
                     },
                   );
                 } else {

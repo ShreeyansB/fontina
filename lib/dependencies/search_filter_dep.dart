@@ -50,7 +50,7 @@ class _MyPopupMenuState extends State<MyPopupMenu> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                widget.title,
+                widget.title == "Family" ? "Type" : widget.title,
                 style: MyTheme.cardKey,
               ),
               Icon(

@@ -5,6 +5,7 @@ import 'package:fontina/dependencies/fontgen_info_dep.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
+import 'package:fontina/dependencies/storage_dep.dart';
 import 'package:fontina/screens/base_screen.dart';
 import 'package:get/get.dart';
 import 'package:fontina/util/theme.dart';
@@ -19,6 +20,7 @@ void main() {
   Get.put(FontgenFontsController());
   Get.put(SearchTextfieldController());
   Get.put(SearchFilterController());
+  Get.put(StorageController());
   runApp(MyApp());
 }
 
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<FontgenInfoController>().updateAPI();
+    Get.find<StorageController>().initStorage();
     final loader = document.getElementsByClassName("lds-ring");
     if (loader.isNotEmpty) {
       loader.first.remove();

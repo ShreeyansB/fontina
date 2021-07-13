@@ -4,28 +4,50 @@ import 'package:fontina/components/font_details_card.dart';
 import 'package:fontina/components/image_carousel.dart';
 import 'package:fontina/components/image_viewer.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
-import 'package:fontina/util/responsive.dart';
+import 'package:fontina/dependencies/search_filter_dep.dart';
+import 'package:fontina/dependencies/search_textfield_dep.dart';
+import 'package:fontina/dependencies/storage_dep.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_pixels/image_pixels.dart';
+import 'package:like_button/like_button.dart';
 
-class FontDetailsScreen extends StatelessWidget {
+class FontDetailsScreen extends StatefulWidget {
   const FontDetailsScreen({Key? key, required this.font}) : super(key: key);
 
   final FontgenFonts font;
 
+  @override
+  _FontDetailsScreenState createState() => _FontDetailsScreenState();
+}
+
+class _FontDetailsScreenState extends State<FontDetailsScreen>
+    with SingleTickerProviderStateMixin {
   Future<bool> loadDetails() async {
     return Future.delayed(Duration(milliseconds: 1000), () {
       return true;
     });
   }
 
+  var isFav = false.obs;
+
+  Future<bool> onLikeTap(bool x) {
+    var storageController = Get.find<StorageController>();
+    if (isFav.value) {
+      storageController.removeFavorite(widget.font);      
+    } else {
+      storageController.addFavorite(widget.font);
+    }
+    isFav.value = !isFav.value;
+    return Future.value(true);
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(
-        "https://fontgen-sb.herokuapp.com/para?f1=${font.family}&f2=${font.family}");
     var _size = MediaQuery.of(context).size;
+    var storageController = Get.find<StorageController>();
+    isFav.value = storageController.checkFont(widget.font);
     return Scaffold(
       backgroundColor: MyTheme.bgColorLight,
       appBar: AppBar(
@@ -42,7 +64,7 @@ class FontDetailsScreen extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
-            font.family,
+            widget.font.family,
             style: GoogleFonts.spaceGrotesk().copyWith(
                 fontSize: 27,
                 color: MyTheme.primaryColorLight,
@@ -51,6 +73,24 @@ class FontDetailsScreen extends StatelessWidget {
         ),
         elevation: 1,
         backgroundColor: context.theme.scaffoldBackgroundColor,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: MyTheme.bgColorLight,
+        elevation: 0,
+        focusElevation: 0,
+        hoverElevation: 0,
+        highlightElevation: 0,
+        shape: CircleBorder(side: BorderSide(color: Colors.black12, width: 1)),
+        child: Obx(() => Padding(
+          padding: const EdgeInsets.only(left: 3),
+          child: LikeButton(
+                size: 20,
+                isLiked: isFav.value,
+                onTap: onLikeTap,
+              ),
+        )),
+        onPressed: () {},
       ),
       body: SafeArea(
         child: SizedBox(
@@ -69,29 +109,30 @@ class FontDetailsScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            FontDetailsCard(font: font),
-                            if (font.info != "") SizedBox(height: 20),
-                            if (font.info != "") FontInfoTextCard(font: font),
+                            FontDetailsCard(font: widget.font),
+                            if (widget.font.info != "") SizedBox(height: 20),
+                            if (widget.font.info != "")
+                              FontInfoTextCard(font: widget.font),
                           ],
                         ),
                         SizedBox(
                           width: 20,
                         ),
                         ImageCarousel(
-                          font: font,
+                          font: widget.font,
                           isRow: true,
                         ),
                       ],
                     ),
-                  if (_size.width <= 1345) FontDetailsCard(font: font),
-                  if (font.info != "" && _size.width <= 1345)
+                  if (_size.width <= 1345) FontDetailsCard(font: widget.font),
+                  if (widget.font.info != "" && _size.width <= 1345)
                     SizedBox(height: 20),
-                  if (font.info != "" && _size.width <= 1345)
-                    FontInfoTextCard(font: font),
+                  if (widget.font.info != "" && _size.width <= 1345)
+                    FontInfoTextCard(font: widget.font),
                   if (_size.width <= 1345) SizedBox(height: 20),
                   if (_size.width <= 1345)
                     ImageCarousel(
-                      font: font,
+                      font: widget.font,
                       isRow: false,
                     ),
                   SizedBox(height: 20),
@@ -117,11 +158,11 @@ class FontDetailsScreen extends StatelessWidget {
                                         spacing: 20,
                                         children: [
                                           GenImage(
-                                            font: font,
+                                            font: widget.font,
                                             isDark: false,
                                           ),
                                           GenImage(
-                                            font: font,
+                                            font: widget.font,
                                             isDark: true,
                                           )
                                         ])
@@ -155,11 +196,11 @@ class FontDetailsScreen extends StatelessWidget {
                                         spacing: 20,
                                         children: [
                                           GenImageCode(
-                                            font: font,
+                                            font: widget.font,
                                             isDark: true,
                                           ),
                                           GenImageCode(
-                                            font: font,
+                                            font: widget.font,
                                             isDark: false,
                                           )
                                         ])
@@ -170,7 +211,8 @@ class FontDetailsScreen extends StatelessWidget {
                           width: 100,
                           child: Center(child: CircularProgressIndicator()),
                         );
-                      })
+                      }),
+                      SizedBox(height: 50,)
                 ],
               ),
             ),
@@ -209,31 +251,28 @@ class GenImage extends StatelessWidget {
             curve: Curves.easeOutBack,
           );
         },
-        child: Hero(
-          tag: "photo",
-          child: CachedNetworkImage(
-            imageUrl:
-                "https://fontgen-sb.herokuapp.com/para?f1=${font.family}&f2=${font.family}",
-            imageBuilder: (context, imageProvider) => Container(
+        child: CachedNetworkImage(
+          imageUrl:
+              "https://fontgen-sb.herokuapp.com/para?f1=${font.family}&f2=${font.family}",
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+                borderRadius: MyTheme.borderRadius,
+                color: isDark ? Color(0xff260F26) : Colors.tealAccent),
+            child: Container(
+              height: size.width > 590 ? 380 : 200,
               decoration: BoxDecoration(
-                  borderRadius: MyTheme.borderRadius,
-                  color: isDark ? Color(0xff260F26) : Colors.tealAccent),
-              child: Container(
-                height: size.width > 590 ? 380 : 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.fitHeight,
-                      colorFilter: ColorFilter.mode(
-                          isDark ? Color(0xffFDCFF3) : Color(0xff413D5D),
-                          BlendMode.srcATop)),
-                ),
+                image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.fitHeight,
+                    colorFilter: ColorFilter.mode(
+                        isDark ? Color(0xffFDCFF3) : Color(0xff413D5D),
+                        BlendMode.srcATop)),
               ),
             ),
-            placeholder: (context, url) => SizedBox(
-                height: 100, child: Center(child: CircularProgressIndicator())),
-            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
+          placeholder: (context, url) => SizedBox(
+              height: 100, child: Center(child: CircularProgressIndicator())),
+          errorWidget: (context, url, error) => Icon(Icons.error),
         ),
       ),
     );
@@ -268,32 +307,29 @@ class GenImageCode extends StatelessWidget {
             curve: Curves.easeOutBack,
           );
         },
-        child: Hero(
-          tag: "photo",
-          child: CachedNetworkImage(
-            imageUrl:
-                "https://fontgen-sb.herokuapp.com/code?font=${font.family}&theme=${isDark ? "an-old-hope" : "base16/gruvbox-light-medium"}",
-            imageBuilder: (context, imageProvider) => ClipRRect(
-              borderRadius: MyTheme.borderRadius,
-              child: ImagePixels.container(
-                imageProvider: imageProvider,
-                colorAlignment: Alignment.topLeft,
-                child: Container(
-                  height: size.width > 590 ? 380 : 230,
-                  decoration: BoxDecoration(
-                    borderRadius: MyTheme.borderRadius,
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.fitWidth,
-                    ),
+        child: CachedNetworkImage(
+          imageUrl:
+              "https://fontgen-sb.herokuapp.com/code?font=${font.family}&theme=${isDark ? "an-old-hope" : "base16/gruvbox-light-medium"}",
+          imageBuilder: (context, imageProvider) => ClipRRect(
+            borderRadius: MyTheme.borderRadius,
+            child: ImagePixels.container(
+              imageProvider: imageProvider,
+              colorAlignment: Alignment.topLeft,
+              child: Container(
+                height: size.width > 590 ? 380 : 230,
+                decoration: BoxDecoration(
+                  borderRadius: MyTheme.borderRadius,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
               ),
             ),
-            placeholder: (context, url) => SizedBox(
-                height: 100, child: Center(child: CircularProgressIndicator())),
-            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
+          placeholder: (context, url) => SizedBox(
+              height: 100, child: Center(child: CircularProgressIndicator())),
+          errorWidget: (context, url, error) => Icon(Icons.error),
         ),
       ),
     );
