@@ -459,7 +459,7 @@ class _SearchListviewState extends State<SearchListview> {
                 setState(() {
                   checkFavs();
                 });
-              });;
+              });
                     },
                   );
                 } else {

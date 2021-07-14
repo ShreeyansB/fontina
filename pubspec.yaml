@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   cached_network_image: ^3.0.0
+  connectivity_plus: ^1.0.5
   cupertino_icons: ^1.0.2
   fl_chart: ^0.36.2
   flutter_card_swipper: ^0.4.0
@@ -36,6 +37,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svg/
+    - google_fonts/
   # example:
   # fonts:
   #   - family: Schyler

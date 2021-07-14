@@ -29,6 +29,6 @@ class MyTheme {
   static TextStyle largeNumber = GoogleFonts.spaceGrotesk(
       fontSize: 40.0,
       fontWeight: FontWeight.w800,
-      color: MyTheme.textColorLight);
+      color: MyTheme.textColorSecondary);
 
 }

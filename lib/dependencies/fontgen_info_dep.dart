@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -66,5 +67,14 @@ class FontgenInfoController extends GetxController {
       print(e);
     }
     update();
+  }
+
+  Future<bool> checkConn() async {
+    var connResult = await Connectivity().checkConnectivity();
+    if (connResult == ConnectivityResult.none) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

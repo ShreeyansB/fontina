@@ -13,7 +13,7 @@ class SearchFilterController extends GetxController {
     family = {for (var item in _fontsController.types) '$item': true};
     weights = {for (var item in _fontsController.weights) '$item': true};
     price = {'isPaid': true, 'isFree': true};
-    print("init");
+    print("Filters Init");
   }
 }
 

@@ -20,7 +20,7 @@ class GenScreen extends StatelessWidget {
                         Get.find<SideMenuController>().controlMenu();
                       },
                       icon: Icon(
-                        Icons.menu,
+                        Icons.vertical_split_sharp,
                         color: MyTheme.primaryColorLight,
                         size: 40,
                       )),

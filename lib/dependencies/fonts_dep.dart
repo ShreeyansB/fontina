@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fontina/components/fonts_info_chart.dart';
+import 'package:fontina/dependencies/fontgen_info_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
+import 'package:fontina/dependencies/storage_dep.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
@@ -43,6 +46,20 @@ class FontgenFonts {
         type: json["type"],
         dateAdded: DateTime.parse(json["dateAdded"]),
         info: json["info"] ?? "");
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['info'] = this.info;
+    data['isPaid'] = this.isPaid;
+    data['family'] = this.family;
+    data['url'] = this.url;
+    data['foundry'] = this.foundry;
+    data['showcaseImg'] = this.showcaseImg;
+    data['weights'] = this.weights;
+    data['type'] = this.type;
+    data['dateAdded'] = this.dateAdded;
+    return data;
   }
 }
 
@@ -107,14 +124,51 @@ class FontgenFontsController extends GetxController {
           value: (item) => colors[types.indexOf(item)],
         );
         Get.find<SearchFilterController>().initFilters();
-
-        return true;
+        if (!kIsWeb) {
+          return await Get.find<StorageController>().saveFonts();
+        } else {
+          return true;
+        }
       } else {
         return false;
       }
     } catch (e, stacktrace) {
       print('Exception: ' + e.toString());
       print('Stacktrace: ' + stacktrace.toString());
+      var storageController = Get.find<StorageController>();
+      if (!kIsWeb &&
+          (storageController.storage.getItem('fonts') != null ||
+              storageController.storage.getItem('fonts') != [])) {
+        print("Looking for cached data...");
+        await storageController.storage.ready;
+        List json = jsonDecode(storageController.storage.getItem('fonts.json'));
+        json.forEach((element) {
+          fonts.add(FontgenFonts.fromJson(element));
+        });
+        fonts.forEach((element) {
+          if (!types.contains(element.type)) {
+            types.add(element.type);
+          }
+        });
+        types.forEach((element) {
+          numOfFamilyFiles.add(0);
+        });
+        fonts.forEach((font) {
+          for (var i = 0; i < types.length; i++) {
+            if (font.type == types[i]) {
+              numOfFamilyFiles[i] += font.weights.length;
+            }
+          }
+        });
+        colorMap = Map.fromIterable(
+          types,
+          key: (item) => item,
+          value: (item) => colors[types.indexOf(item)],
+        );
+        Get.find<FontgenInfoController>().fontgenInfo.value.numFonts = fonts.length;
+        Get.find<SearchFilterController>().initFilters();
+        return true;
+      }
       return false;
     }
   }
