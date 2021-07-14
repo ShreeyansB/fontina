@@ -137,8 +137,8 @@ class FontgenFontsController extends GetxController {
       print('Stacktrace: ' + stacktrace.toString());
       var storageController = Get.find<StorageController>();
       if (!kIsWeb &&
-          (storageController.storage.getItem('fonts') != null ||
-              storageController.storage.getItem('fonts') != [])) {
+          (await storageController.storage.getItem('fonts.json') != null &&  
+              await storageController.storage.getItem('fonts.json') != [])) {
         print("Looking for cached data...");
         await storageController.storage.ready;
         List json = jsonDecode(storageController.storage.getItem('fonts.json'));

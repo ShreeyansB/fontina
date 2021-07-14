@@ -33,22 +33,6 @@ class _BaseScreenState extends State<BaseScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data == false) {
-              // Get.defaultDialog(
-              //   title: "No connection",
-              //   content: Text(
-              //     "Could not find cached data. Internet connection is needed to fetch data. Please connect to the internet to use this app so that the data can be cached.",
-              //     style: MyTheme.cardKey,
-              //   ),
-              //   barrierDismissible: false,
-              //   actions: [
-              //     TextButton(
-              //         onPressed: () {
-              //           SystemChannels.platform
-              //               .invokeMethod('SystemNavigator.pop');
-              //         },
-              //         child: Text("Exit"))
-              //   ],
-              // );
               return Center(
                 child: Container(
                   padding: EdgeInsets.all(50),
@@ -64,7 +48,7 @@ class _BaseScreenState extends State<BaseScreen> {
                         height: 18,
                       ),
                       Text(
-                        "Could not find cached data. Internet connection is needed to fetch data. Please connect to the internet to use this app so that the data can be cached.",
+                        "Could not find cached data.\nInternet connection is needed to fetch data.\nPlease connect to the internet to use this app so that the data can be cached.",
                         style: MyTheme.cardKey,
                         textAlign: TextAlign.center,
                       ),
