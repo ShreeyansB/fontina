@@ -136,12 +136,12 @@ class FontgenFontsController extends GetxController {
       print('Exception: ' + e.toString());
       print('Stacktrace: ' + stacktrace.toString());
       var storageController = Get.find<StorageController>();
-      if (!kIsWeb &&
-          (await storageController.storage.getItem('fonts.json') != null &&  
-              await storageController.storage.getItem('fonts.json') != [])) {
+      await storageController.storage.ready;
+      var data = await storageController.storage.getItem('fonts.json');
+      print(data);
+      if (!kIsWeb && (data != null && data != [])) {
         print("Looking for cached data...");
-        await storageController.storage.ready;
-        List json = jsonDecode(storageController.storage.getItem('fonts.json'));
+        List json = jsonDecode(data);
         json.forEach((element) {
           fonts.add(FontgenFonts.fromJson(element));
         });
@@ -165,7 +165,8 @@ class FontgenFontsController extends GetxController {
           key: (item) => item,
           value: (item) => colors[types.indexOf(item)],
         );
-        Get.find<FontgenInfoController>().fontgenInfo.value.numFonts = fonts.length;
+        Get.find<FontgenInfoController>().fontgenInfo.value.numFonts =
+            fonts.length;
         Get.find<SearchFilterController>().initFilters();
         return true;
       }

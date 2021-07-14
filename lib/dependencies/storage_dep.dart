@@ -61,6 +61,7 @@ class StorageController extends GetxController {
       data.add(element.toJson());
     });
     await storage.setItem('fonts.json', jsonEncode(data, toEncodable: myEncode));
+    // print(await storage.getItem('fonts.json'));
     return true;
   }
 }
