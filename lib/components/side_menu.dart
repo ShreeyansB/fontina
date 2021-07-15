@@ -73,6 +73,7 @@ class _SideMenuState extends State<SideMenu> {
               DrawerTile(
                 title: "Generate",
                 svgSrc: "assets/svg/gen.svg",
+                height: 24,
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(3);
                   if (Responsive.isMobile(context)) {
@@ -84,6 +85,7 @@ class _SideMenuState extends State<SideMenu> {
               DrawerTile(
                 title: "Details",
                 svgSrc: "assets/svg/details.svg",
+                height: 22,
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(4);
                   if (Responsive.isMobile(context)) {
@@ -95,6 +97,7 @@ class _SideMenuState extends State<SideMenu> {
               DrawerTile(
                 title: "Settings",
                 svgSrc: "assets/svg/settings.svg",
+                height: 25,
                 onPress: () {
                   Get.find<SideMenuController>().switchScreen(5);
                   if (Responsive.isMobile(context)) {
@@ -118,14 +121,17 @@ class DrawerTile extends StatelessWidget {
     required this.svgSrc,
     required this.onPress,
     required this.index,
+    this.height = 23
   }) : super(key: key);
 
   final String title, svgSrc;
   final VoidCallback onPress;
   final int index;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
+    print(height);
     if (Responsive.isDesktop(context) || Responsive.isMobile(context)) {
       return Container(
           width: 150,
@@ -141,7 +147,7 @@ class DrawerTile extends StatelessWidget {
                   color: Get.find<SideMenuController>().nav.index.value == index
                       ? MyTheme.primaryColorLight
                       : MyTheme.textColorLight,
-                  height: 23,
+                  height: height,
                 ),
                 title: Text(
                   title,
@@ -170,7 +176,7 @@ class DrawerTile extends StatelessWidget {
                   color: Get.find<SideMenuController>().nav.index.value == index
                       ? MyTheme.primaryColorLight
                       : MyTheme.textColorLight,
-                  height: 23,
+                  height: height,
                 ),
               )));
     }

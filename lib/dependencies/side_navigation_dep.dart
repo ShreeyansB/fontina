@@ -8,7 +8,7 @@ import 'package:fontina/screens/settings_screen.dart';
 import 'package:get/get.dart';
 
 class SideMenuNavigation {
-  var index = 1.obs;
+  var index = 3.obs;
 }
 
 class SideMenuController extends GetxController {

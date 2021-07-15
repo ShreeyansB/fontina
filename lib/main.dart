@@ -49,21 +49,31 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'fontina',
       theme: ThemeData.light().copyWith(
-          scaffoldBackgroundColor: MyTheme.bgColorLight,
-          primaryColor: MyTheme.primaryColorLight,
-          accentColor: MyTheme.primaryColorLight,
-          canvasColor: MyTheme.bgColorLight,
-          colorScheme: ColorScheme.fromSwatch(
-              primarySwatch: Colors.pink, accentColor: Colors.pink),
-          textTheme: GoogleFonts.karlaTextTheme(
-            Theme.of(context)
-                .textTheme
-                .apply(bodyColor: MyTheme.textColorLight),
-          ),
-          tooltipTheme: TooltipThemeData(
-              decoration: BoxDecoration(
+        scaffoldBackgroundColor: MyTheme.bgColorLight,
+        primaryColor: MyTheme.primaryColorLight,
+        accentColor: MyTheme.primaryColorLight,
+        canvasColor: MyTheme.bgColorLight,
+        colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.pink, accentColor: Colors.pink),
+        textTheme: GoogleFonts.karlaTextTheme(
+          Theme.of(context).textTheme.apply(bodyColor: MyTheme.textColorLight),
+        ),
+        tooltipTheme: TooltipThemeData(
+          decoration: BoxDecoration(
             color: Colors.transparent,
-          ))),
+          ),
+        ),
+        tabBarTheme: TabBarTheme(
+          labelColor: MyTheme.textColorSecondary,
+          labelStyle: MyTheme.cardKey.copyWith(fontSize: 17),
+          unselectedLabelStyle: MyTheme.cardKey.copyWith(fontSize: 17),
+          indicator: BoxDecoration(
+              borderRadius: MyTheme.borderRadius,
+              color: Colors.transparent,
+              border: Border.all(width: 1, color: Colors.black12),
+              shape: BoxShape.rectangle),
+        ),
+      ),
       home: BaseScreen(),
     );
   }
