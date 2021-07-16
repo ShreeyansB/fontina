@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fontina/components/gen_tabs.dart';
 import 'package:fontina/dependencies/side_navigation_dep.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
@@ -70,10 +71,7 @@ class _GenScreenState extends State<GenScreen>
             Container(
               height: MediaQuery.of(context).size.height,
               child: TabBarView(children: [
-                Container(
-                  color: Colors.red,
-                  child: Text("HEHE"),
-                ),
+                ParaGen(),
                 Container(
                   color: Colors.green,
                   child: Text("HEHeeeE"),

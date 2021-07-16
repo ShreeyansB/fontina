@@ -131,7 +131,6 @@ class DrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(height);
     if (Responsive.isDesktop(context) || Responsive.isMobile(context)) {
       return Container(
           width: 150,

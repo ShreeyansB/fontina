@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fontina/dependencies/fontgen_info_dep.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/dependencies/gen_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/dependencies/storage_dep.dart';
@@ -21,6 +22,7 @@ void main() {
   Get.put(SearchTextfieldController());
   Get.put(SearchFilterController());
   Get.put(StorageController());
+  Get.put(GenerateController());
   runApp(MyApp());
 }
 
