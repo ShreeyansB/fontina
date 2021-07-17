@@ -105,74 +105,83 @@ class _MyColorPickerState extends State<MyColorPicker> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return AlertDialog(
-      elevation: 1,
-      insetPadding: EdgeInsets.all(10),
-      shape: RoundedRectangleBorder(
-          borderRadius: MyTheme.borderRadius,
-          side: BorderSide(color: Colors.black12, width: 1)),
-      actionsPadding: MyTheme.cardPadding,
-      title: Text(
-        "Color Picker",
-        style: MyTheme.cardKey,
-      ),
-      actions: [
-        OutlinedButton(
-            onPressed: () {
-              Get.back(result: null);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "CANCEL",
-                style: MyTheme.cardKey.copyWith(fontSize: 15),
-              ),
-            )),
-        SizedBox(
-          width: 20,
+    print(size);
+    return AnimatedContainer(
+      padding: MediaQuery.of(context).padding,
+      duration: Duration(milliseconds: 300),
+      child: AlertDialog(
+        elevation: 1,
+        insetPadding: EdgeInsets.all(10),
+        shape: RoundedRectangleBorder(
+            borderRadius: MyTheme.borderRadius,
+            side: BorderSide(color: Colors.black12, width: 1)),
+        actionsPadding: MyTheme.cardPadding,
+        title: Text(
+          "Color Picker",
+          style: MyTheme.cardKey,
         ),
-        OutlinedButton(
-            onPressed: () {
-              Get.back(result: color);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "SELECT",
-                style: MyTheme.cardKey.copyWith(fontSize: 15),
-              ),
-            ))
-      ],
-      content: Container(
-        width:
-            Responsive.isMobile(context) ? size.width / 1.3 : size.width / 2.3,
-        height: size.height / 1.3,
-        child: ColorPicker(
-          color: color,
-          spacing: 10,
-          runSpacing: 10,
-          wheelDiameter: 300,
-          wheelWidth: 24,
-          columnSpacing: 40,
-          showMaterialName: true,
-          showColorName: true,
-          showColorCode: true,
-          pickersEnabled: const <ColorPickerType, bool>{
-            ColorPickerType.both: false,
-            ColorPickerType.primary: true,
-            ColorPickerType.accent: true,
-            ColorPickerType.bw: false,
-            ColorPickerType.custom: false,
-            ColorPickerType.wheel: true,
-          },
-          width: 50,
-          height: 50,
-          borderRadius: 10,
-          onColorChanged: (value) {
-            setState(() {
-              color = value;
-            });
-          },
+        actions: [
+          OutlinedButton(
+              onPressed: () {
+                Get.back(result: null);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "CANCEL",
+                  style: MyTheme.cardKey.copyWith(fontSize: 15),
+                ),
+              )),
+          SizedBox(
+            width: 20,
+          ),
+          OutlinedButton(
+              onPressed: () {
+                Get.back(result: color);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "SELECT",
+                  style: MyTheme.cardKey.copyWith(fontSize: 15),
+                ),
+              ))
+        ],
+        content: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            width: Responsive.isMobile(context)
+                ? size.width / 1.3
+                : size.width / 2.3,
+            // height: size.height / 1.3,
+            child: ColorPicker(
+              color: color,
+              spacing: 10,
+              runSpacing: 10,
+              wheelDiameter: 300,
+              wheelWidth: 24,
+              columnSpacing: Responsive.isMobile(context) ? 10 : 40,
+              showMaterialName: true,
+              showColorName: true,
+              showColorCode: true,
+              pickersEnabled: const <ColorPickerType, bool>{
+                ColorPickerType.both: false,
+                ColorPickerType.primary: true,
+                ColorPickerType.accent: true,
+                ColorPickerType.bw: false,
+                ColorPickerType.custom: false,
+                ColorPickerType.wheel: true,
+              },
+              width: 50,
+              height: 50,
+              borderRadius: 10,
+              onColorChanged: (value) {
+                setState(() {
+                  color = value;
+                });
+              },
+            ),
+          ),
         ),
       ),
     );

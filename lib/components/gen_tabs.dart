@@ -205,7 +205,7 @@ class _ParaGenState extends State<ParaGen> {
           ),
           ParaColorPicker(),
           SizedBox(
-            height: 20,
+            height: 30,
           ),
           TextButton(
             onPressed: () {
@@ -229,7 +229,7 @@ class _ParaGenState extends State<ParaGen> {
             ),
           ),
           SizedBox(
-            height: 40,
+            height: 30,
           ),
           Text(
             "Result : ",
@@ -255,14 +255,15 @@ class _ParaGenState extends State<ParaGen> {
                       child: ImagePixels.container(
                         imageProvider: img,
                         colorAlignment: Alignment.topLeft,
-                        child: Image.network(generateController.paraURL),
+                        child: Image.network(generateController.paraURL, fit: BoxFit.contain,),
                       ),
                     ),
                   ),
                 );
               }
             },
-          )
+          ),
+          SizedBox(height: 70)
         ],
       ),
     );
