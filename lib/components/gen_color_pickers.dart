@@ -46,7 +46,6 @@ class _ParaColorPickerState extends State<ParaColorPicker> {
                   var result = await showColorPicker(context);
                   generateController.paraFGColor.value =
                       result ?? generateController.paraFGColor.value;
-                  print(generateController.paraFGColor);
                 },
                 child: Obx(() => ColorIndicator(
                       height: 34,
@@ -73,7 +72,6 @@ class _ParaColorPickerState extends State<ParaColorPicker> {
                   var result = await showColorPicker(context);
                   generateController.paraBGColor.value =
                       result ?? generateController.paraBGColor.value;
-                  print(generateController.paraBGColor);
                 },
                 child: Obx(() => ColorIndicator(
                       height: 34,
@@ -105,10 +103,8 @@ class _MyColorPickerState extends State<MyColorPicker> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    print(size);
-    return AnimatedContainer(
-      padding: MediaQuery.of(context).padding,
-      duration: Duration(milliseconds: 300),
+    return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: AlertDialog(
         elevation: 1,
         insetPadding: EdgeInsets.all(10),
@@ -164,6 +160,8 @@ class _MyColorPickerState extends State<MyColorPicker> {
               showMaterialName: true,
               showColorName: true,
               showColorCode: true,
+              copyPasteBehavior: ColorPickerCopyPasteBehavior(
+                  copyButton: true, pasteButton: true, longPressMenu: true),
               pickersEnabled: const <ColorPickerType, bool>{
                 ColorPickerType.both: false,
                 ColorPickerType.primary: true,

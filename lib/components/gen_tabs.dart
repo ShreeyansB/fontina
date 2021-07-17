@@ -252,8 +252,8 @@ class _ParaGenState extends State<ParaGen> {
                     onTap: () => Get.to(
                         ImageViewer(imgURL: generateController.paraURL)),
                     child: Container(
-                      height: 450,
-                      width: 700,
+                      height: Responsive.isMobile(context) ? 300 : 450,
+                      width: Responsive.isMobile(context) ? 500 : 700,
                       child: CachedNetworkImage(
                         imageUrl: generateController.paraURL,
                         imageBuilder: (context, imageProvider) => ClipRRect(
@@ -273,7 +273,7 @@ class _ParaGenState extends State<ParaGen> {
                           ),
                         ),
                         placeholder: (context, url) => SizedBox(
-                            height: 100,
+                            height: 50,
                             child:
                                 Center(child: CircularProgressIndicator())),
                         errorWidget: (context, url, error) =>
