@@ -69,7 +69,7 @@ class _GenScreenState extends State<GenScreen>
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height - 100,
               child: TabBarView(children: [
                 ParaGen(),
                 Container(

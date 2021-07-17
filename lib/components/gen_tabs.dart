@@ -126,145 +126,149 @@ class _ParaGenState extends State<ParaGen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            "Pick Heading Font:  ",
-            style: MyTheme.headingSec,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: MyTheme.borderRadius,
-                    side: BorderSide(color: Colors.black12, width: 1))),
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Obx(
-                () => Text(
-                  "${generateController.paraFontHead} [${generateController.paraWeightHead}]",
-                  style: MyTheme.cardKey.copyWith(letterSpacing: 0.8),
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Pick Heading Font:  ",
+              style: MyTheme.headingSec,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: MyTheme.borderRadius,
+                      side: BorderSide(color: Colors.black12, width: 1))),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Obx(
+                  () => Text(
+                    "${generateController.paraFontHead} [${generateController.paraWeightHead}]",
+                    style: MyTheme.cardKey.copyWith(letterSpacing: 0.8),
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                var result = await selectFontsHeadDialog(context);
+                generateController.paraFontHead.value =
+                    result[0] ?? generateController.paraFontHead.value;
+                generateController.paraWeightHead.value =
+                    result[1] ?? generateController.paraWeightHead.value;
+              },
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Text(
+              "Pick Content Font:  ",
+              style: MyTheme.headingSec,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: MyTheme.borderRadius,
+                      side: BorderSide(color: Colors.black12, width: 1))),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Obx(
+                  () => Text(
+                    "${generateController.paraFontSub.value} [${generateController.paraWeightSub.value}]",
+                    style: MyTheme.cardKey.copyWith(letterSpacing: 0.8),
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                var result = await selectFontsSubDialog(context);
+                generateController.paraFontSub.value =
+                    result[0] ?? generateController.paraFontSub.value;
+                generateController.paraWeightSub.value =
+                    result[1] ?? generateController.paraWeightSub.value;
+              },
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Text(
+              "Pick BG and FG Colors:  ",
+              style: MyTheme.headingSec,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            ParaColorPicker(),
+            SizedBox(
+              height: 30,
+            ),
+            TextButton(
+              onPressed: () {
+                generateController.paraURL = generateController.apiURL +
+                    "?f1=${generateController.paraFontHead}&w1=${generateController.paraWeightHead}&f2=${generateController.paraFontSub}&w2=${generateController.paraWeightSub}&bg=${generateController.colorToString(generateController.paraBGColor.value)}&fg=${generateController.colorToString(generateController.paraFGColor.value)}";
+                generateController.update();
+              },
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(MyTheme.primaryColorLight),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: MyTheme.borderRadius))),
+              child: Padding(
+                padding: MyTheme.cardPadding / 1.5,
+                child: Text(
+                  "Generate",
+                  style: MyTheme.cardKey.copyWith(
+                      color: MyTheme.bgColorLight, letterSpacing: 0.8),
                 ),
               ),
             ),
-            onPressed: () async {
-              var result = await selectFontsHeadDialog(context);
-              generateController.paraFontHead.value =
-                  result[0] ?? generateController.paraFontHead.value;
-              generateController.paraWeightHead.value =
-                  result[1] ?? generateController.paraWeightHead.value;
-            },
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Text(
-            "Pick Content Font:  ",
-            style: MyTheme.headingSec,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          OutlinedButton(
-            style: OutlinedButton.styleFrom(
-                shape: RoundedRectangleBorder(
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              "Result : ",
+              style: MyTheme.headingSec,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            GetBuilder<GenerateController>(
+              builder: (controller) {
+                if (controller.paraURL == "") {
+                  return Container(
+                    height: 500,
+                  );
+                } else {
+                  var img = NetworkImage(generateController.paraURL);
+                  return ClipRRect(
                     borderRadius: MyTheme.borderRadius,
-                    side: BorderSide(color: Colors.black12, width: 1))),
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Obx(
-                () => Text(
-                  "${generateController.paraFontSub.value} [${generateController.paraWeightSub.value}]",
-                  style: MyTheme.cardKey.copyWith(letterSpacing: 0.8),
-                ),
-              ),
-            ),
-            onPressed: () async {
-              var result = await selectFontsSubDialog(context);
-              generateController.paraFontSub.value =
-                  result[0] ?? generateController.paraFontSub.value;
-              generateController.paraWeightSub.value =
-                  result[1] ?? generateController.paraWeightSub.value;
-            },
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Text(
-            "Pick BG and FG Colors:  ",
-            style: MyTheme.headingSec,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          ParaColorPicker(),
-          SizedBox(
-            height: 30,
-          ),
-          TextButton(
-            onPressed: () {
-              generateController.paraURL = generateController.apiURL +
-                  "?f1=${generateController.paraFontHead}&w1=${generateController.paraWeightHead}&f2=${generateController.paraFontSub}&w2=${generateController.paraWeightSub}&bg=${generateController.colorToString(generateController.paraBGColor.value)}&fg=${generateController.colorToString(generateController.paraFGColor.value)}";
-              print(generateController.paraURL);
-              generateController.update();
-            },
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(MyTheme.primaryColorLight),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: MyTheme.borderRadius))),
-            child: Padding(
-              padding: MyTheme.cardPadding / 1.5,
-              child: Text(
-                "Generate",
-                style: MyTheme.cardKey
-                    .copyWith(color: MyTheme.bgColorLight, letterSpacing: 0.8),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Text(
-            "Result : ",
-            style: MyTheme.headingSec,
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          GetBuilder<GenerateController>(
-            builder: (controller) {
-              if (controller.paraURL == "") {
-                return Container();
-              } else {
-                var img = NetworkImage(generateController.paraURL);
-                return ClipRRect(
-                  borderRadius: MyTheme.borderRadius,
-                  child: GestureDetector(
-                    onTap: () =>
-                        Get.to(ImageViewer(imgURL: generateController.paraURL)),
-                    child: Container(
-                      width: 600,
-                      height: 400,
-                      child: ImagePixels.container(
-                        imageProvider: img,
-                        colorAlignment: Alignment.topLeft,
-                        child: Image.network(generateController.paraURL, fit: BoxFit.contain,),
+                    child: GestureDetector(
+                      onTap: () => Get.to(
+                          ImageViewer(imgURL: generateController.paraURL)),
+                      child: Container(
+                        height: 400,
+                        child: ImagePixels.container(
+                          imageProvider: img,
+                          colorAlignment: Alignment.topLeft,
+                          child: Image.network(
+                            generateController.paraURL,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              }
-            },
-          ),
-          SizedBox(height: 70)
-        ],
+                  );
+                }
+              },
+            ),
+            SizedBox(height: 50)
+          ],
+        ),
       ),
     );
   }
