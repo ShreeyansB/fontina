@@ -73,8 +73,7 @@ class _GenScreenState extends State<GenScreen>
               child: TabBarView(children: [
                 ParaGen(),
                 Container(
-                  color: Colors.green,
-                  child: Text("HEHeeeE"),
+                  child: Text("Not yet implemented"),
                 )
               ]),
             ),

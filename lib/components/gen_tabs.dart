@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fontina/components/gen_color_pickers.dart';
+import 'package:fontina/components/image_viewer.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/gen_dep.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
+import 'package:image_pixels/image_pixels.dart';
 
 class ParaGen extends StatefulWidget {
   const ParaGen({Key? key}) : super(key: key);
@@ -130,7 +133,7 @@ class _ParaGenState extends State<ParaGen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            "Pick Heading Font :  ",
+            "Pick Heading Font:  ",
             style: MyTheme.headingSec,
           ),
           SizedBox(
@@ -162,7 +165,7 @@ class _ParaGenState extends State<ParaGen> {
             height: 40,
           ),
           Text(
-            "Pick Content Font :  ",
+            "Pick Content Font:  ",
             style: MyTheme.headingSec,
           ),
           SizedBox(
@@ -194,12 +197,72 @@ class _ParaGenState extends State<ParaGen> {
             height: 40,
           ),
           Text(
+            "Pick BG and FG Colors:  ",
+            style: MyTheme.headingSec,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ParaColorPicker(),
+          SizedBox(
+            height: 20,
+          ),
+          TextButton(
+            onPressed: () {
+              generateController.paraURL = generateController.apiURL +
+                  "?f1=${generateController.paraFontHead}&w1=${generateController.paraWeightHead}&f2=${generateController.paraFontSub}&w2=${generateController.paraWeightSub}&bg=${generateController.colorToString(generateController.paraBGColor.value)}&fg=${generateController.colorToString(generateController.paraFGColor.value)}";
+              print(generateController.paraURL);
+              generateController.update();
+            },
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(MyTheme.primaryColorLight),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: MyTheme.borderRadius))),
+            child: Padding(
+              padding: MyTheme.cardPadding / 1.5,
+              child: Text(
+                "Generate",
+                style: MyTheme.cardKey
+                    .copyWith(color: MyTheme.bgColorLight, letterSpacing: 0.8),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 40,
+          ),
+          Text(
             "Result : ",
             style: MyTheme.headingSec,
           ),
           SizedBox(
             height: 20,
           ),
+          GetBuilder<GenerateController>(
+            builder: (controller) {
+              if (controller.paraURL == "") {
+                return Container();
+              } else {
+                var img = NetworkImage(generateController.paraURL);
+                return ClipRRect(
+                  borderRadius: MyTheme.borderRadius,
+                  child: GestureDetector(
+                    onTap: () =>
+                        Get.to(ImageViewer(imgURL: generateController.paraURL)),
+                    child: Container(
+                      width: 600,
+                      height: 400,
+                      child: ImagePixels.container(
+                        imageProvider: img,
+                        colorAlignment: Alignment.topLeft,
+                        child: Image.network(generateController.paraURL),
+                      ),
+                    ),
+                  ),
+                );
+              }
+            },
+          )
         ],
       ),
     );
@@ -347,7 +410,7 @@ class _FontSelectorHeadState extends State<FontSelectorHead> {
           ClipRRect(
             borderRadius: MyTheme.borderRadius,
             child: Container(
-              height: 44,
+              height: 46,
               decoration: BoxDecoration(
                 borderRadius: MyTheme.borderRadius,
                 border: Border.all(color: Colors.black12, width: 1.0),
@@ -532,7 +595,7 @@ class _FontSelectorSubState extends State<FontSelectorSub> {
           ClipRRect(
             borderRadius: MyTheme.borderRadius,
             child: Container(
-              height: 44,
+              height: 46,
               decoration: BoxDecoration(
                 borderRadius: MyTheme.borderRadius,
                 border: Border.all(color: Colors.black12, width: 1.0),
