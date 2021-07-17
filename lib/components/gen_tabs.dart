@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fontina/components/gen_color_pickers.dart';
 import 'package:fontina/components/image_viewer.dart';
@@ -127,10 +128,12 @@ class _ParaGenState extends State<ParaGen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "Pick Heading Font:  ",
@@ -214,6 +217,7 @@ class _ParaGenState extends State<ParaGen> {
                 generateController.update();
               },
               style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(Colors.black12),
                   backgroundColor:
                       MaterialStateProperty.all(MyTheme.primaryColorLight),
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(
@@ -241,25 +245,39 @@ class _ParaGenState extends State<ParaGen> {
               builder: (controller) {
                 if (controller.paraURL == "") {
                   return Container(
-                    height: 500,
+                    height: 50,
                   );
                 } else {
-                  var img = NetworkImage(generateController.paraURL);
-                  return ClipRRect(
-                    borderRadius: MyTheme.borderRadius,
-                    child: GestureDetector(
-                      onTap: () => Get.to(
-                          ImageViewer(imgURL: generateController.paraURL)),
-                      child: Container(
-                        height: 400,
-                        child: ImagePixels.container(
-                          imageProvider: img,
-                          colorAlignment: Alignment.topLeft,
-                          child: Image.network(
-                            generateController.paraURL,
-                            fit: BoxFit.contain,
+                  return GestureDetector(
+                    onTap: () => Get.to(
+                        ImageViewer(imgURL: generateController.paraURL)),
+                    child: Container(
+                      height: 450,
+                      width: 700,
+                      child: CachedNetworkImage(
+                        imageUrl: generateController.paraURL,
+                        imageBuilder: (context, imageProvider) => ClipRRect(
+                          borderRadius: MyTheme.borderRadius,
+                          child: ImagePixels.container(
+                            imageProvider: imageProvider,
+                            colorAlignment: Alignment.topLeft,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: MyTheme.borderRadius,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
+                        placeholder: (context, url) => SizedBox(
+                            height: 100,
+                            child:
+                                Center(child: CircularProgressIndicator())),
+                        errorWidget: (context, url, error) =>
+                            Icon(Icons.error),
                       ),
                     ),
                   );

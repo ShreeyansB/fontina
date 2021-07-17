@@ -82,7 +82,13 @@ class _ImageViewerState extends State<ImageViewer>
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
             widget.imgURL
-                .replaceAll("https://fontgen-sb.herokuapp.com/download/", ""),
+                        .replaceAll(
+                            "https://fontgen-sb.herokuapp.com/download/", "")
+                        .length >
+                    34
+                ? "Image Viewer"
+                : widget.imgURL.replaceAll(
+                    "https://fontgen-sb.herokuapp.com/download/", ""),
             style: GoogleFonts.spaceGrotesk().copyWith(
                 fontSize: 27,
                 color: MyTheme.primaryColorLight,
@@ -262,10 +268,7 @@ class _ImageViewerParaState extends State<ImageViewerPara>
 }
 
 class ImageViewerCode extends StatefulWidget {
-  const ImageViewerCode(
-      {Key? key,
-      required this.imgURL,
-      required this.name})
+  const ImageViewerCode({Key? key, required this.imgURL, required this.name})
       : super(key: key);
   final String imgURL;
   final String name;
