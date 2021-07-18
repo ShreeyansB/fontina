@@ -250,7 +250,7 @@ class _ParaGenState extends State<ParaGen> {
                 } else {
                   return GestureDetector(
                     onTap: () => Get.to(
-                        ImageViewer(imgURL: generateController.paraURL)),
+                        () => ImageViewer(imgURL: generateController.paraURL)),
                     child: Container(
                       height: Responsive.isMobile(context) ? 300 : 450,
                       width: Responsive.isMobile(context) ? 500 : 700,
@@ -274,10 +274,8 @@ class _ParaGenState extends State<ParaGen> {
                         ),
                         placeholder: (context, url) => SizedBox(
                             height: 50,
-                            child:
-                                Center(child: CircularProgressIndicator())),
-                        errorWidget: (context, url, error) =>
-                            Icon(Icons.error),
+                            child: Center(child: CircularProgressIndicator())),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   );

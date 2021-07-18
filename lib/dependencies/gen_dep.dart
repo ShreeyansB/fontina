@@ -15,8 +15,13 @@ class GenerateController extends GetxController {
   var paraFGColor = Colors.pink.shade200.obs;
   var paraBGColor = Colors.purple.shade900.obs;
 
+  var codeFont = "AbrilFatface".obs;
+  var codeTheme = "agate".obs;
+
   String apiURL = "https://fontgen-sb.herokuapp.com/para";
   String paraURL = "";
+  String cApiURL = "https://fontgen-sb.herokuapp.com/code";
+  String codeURL = "";
 
   String colorToString(Color color) =>
       color.toString().split('(0xff')[1].split(')')[0];

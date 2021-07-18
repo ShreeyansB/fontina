@@ -65,7 +65,9 @@ class FontgenFonts {
 
 class FontgenFontsController extends GetxController {
   RxList<FontgenFonts> fonts = RxList<FontgenFonts>.empty(growable: true);
-  var url = Uri.parse("https://fontgen-sb.herokuapp.com/list-fonts");
+  RxList<String> themes = RxList<String>.empty(growable: true);
+  var fontsURL = Uri.parse("https://fontgen-sb.herokuapp.com/list-fonts");
+  var themesURL = Uri.parse("https://fontgen-sb.herokuapp.com/list-themes");
   List<String> types = [];
   List<String> weights = [
     '100',
@@ -96,18 +98,24 @@ class FontgenFontsController extends GetxController {
 
   Future<bool> getFonts() async {
     try {
-      var response = await http.get(url);
+      var response = await http.get(fontsURL);
       print("Fontgen Info: " + response.statusCode.toString());
+      var tResponse = await http.get(themesURL);
       if (response.statusCode == 200) {
         List json = jsonDecode(response.body);
+        List tJson = jsonDecode(tResponse.body);
         json.forEach((element) {
           fonts.add(FontgenFonts.fromJson(element));
+        });
+        tJson.forEach((element) {
+          themes.add(element["name"]);
         });
         fonts.forEach((element) {
           if (!types.contains(element.type)) {
             types.add(element.type);
           }
         });
+        themes.sort((a, b) => a.compareTo(b));
         types.forEach((element) {
           numOfFamilyFiles.add(0);
         });
