@@ -28,14 +28,23 @@ class _SideMenuState extends State<SideMenu> {
           child: Column(
             children: [
               Container(
-                margin: Responsive.isTablet(context) ? EdgeInsets.only(top: 20) : EdgeInsets.all(0),
+                margin: Responsive.isTablet(context)
+                    ? EdgeInsets.only(top: 20)
+                    : Responsive.isMobile(context)
+                        ? EdgeInsets.only(top: 50)
+                        : EdgeInsets.zero,
                 width: Responsive.isTablet(context) ? 105 : 170,
-                child: Responsive.isTablet(context) ? Image.asset(
-                  "assets/images/logo_small.png",
-                ) : Image.asset(
-                  "assets/images/logo_full.png",
-                ),
+                child: Responsive.isTablet(context)
+                    ? Image.asset(
+                        "assets/images/logo_small.png",
+                      )
+                    : Image.asset(
+                        "assets/images/logo_full.png",
+                      ),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
+              ),
+              SizedBox(
+                height: Responsive.isMobile(context) ? 90 : 50,
               ),
               DrawerTile(
                 title: "Home",
@@ -94,18 +103,6 @@ class _SideMenuState extends State<SideMenu> {
                 },
                 index: 4,
               ),
-              DrawerTile(
-                title: "Settings",
-                svgSrc: "assets/svg/settings.svg",
-                height: 25,
-                onPress: () {
-                  Get.find<SideMenuController>().switchScreen(5);
-                  if (Responsive.isMobile(context)) {
-                    Get.back();
-                  }
-                },
-                index: 5,
-              ),
             ],
           ),
         ),
@@ -115,14 +112,14 @@ class _SideMenuState extends State<SideMenu> {
 }
 
 class DrawerTile extends StatelessWidget {
-  const DrawerTile({
-    Key? key,
-    required this.title,
-    required this.svgSrc,
-    required this.onPress,
-    required this.index,
-    this.height = 23
-  }) : super(key: key);
+  const DrawerTile(
+      {Key? key,
+      required this.title,
+      required this.svgSrc,
+      required this.onPress,
+      required this.index,
+      this.height = 23})
+      : super(key: key);
 
   final String title, svgSrc;
   final VoidCallback onPress;
@@ -181,29 +178,3 @@ class DrawerTile extends StatelessWidget {
     }
   }
 }
-
-// ListTile(
-//             contentPadding: EdgeInsets.symmetric(
-//               vertical: 3,
-//               horizontal: 20,
-//             ),
-//             onTap: onPress,
-//             horizontalTitleGap: 0,
-//             leading: SvgPicture.asset(
-//               svgSrc,
-//               color: selected.value == index
-//                   ? MyTheme.primaryColorLight
-//                   : MyTheme.textColorLight,
-//               height: 23,
-//             ),
-//             title: Text(
-//               title,
-//               maxLines: 1,
-//               style: TextStyle(
-//                   fontWeight: FontWeight.w600,
-//                   color: selected.value == index
-//                       ? MyTheme.primaryColorLight
-//                       : MyTheme.textColorLight,
-//                   fontSize: 17.0),
-//             ),
-//           ),

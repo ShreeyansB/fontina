@@ -4,7 +4,6 @@ import 'package:fontina/screens/fav_screen.dart';
 import 'package:fontina/screens/gen_screen.dart';
 import 'package:fontina/screens/home_screen.dart';
 import 'package:fontina/screens/search_screen.dart';
-import 'package:fontina/screens/settings_screen.dart';
 import 'package:get/get.dart';
 
 class SideMenuNavigation {
@@ -19,7 +18,6 @@ class SideMenuController extends GetxController {
     FavScreen(),
     GenScreen(),
     DetailsScreen(),
-    SettingsScreen()
   ];
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();

@@ -4,8 +4,6 @@ import 'package:fontina/components/font_details_card.dart';
 import 'package:fontina/components/image_carousel.dart';
 import 'package:fontina/components/image_viewer.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
-import 'package:fontina/dependencies/search_filter_dep.dart';
-import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/dependencies/storage_dep.dart';
 import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
