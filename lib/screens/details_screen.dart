@@ -9,19 +9,39 @@ import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DetailsScreen extends StatelessWidget {
+class DetailsScreen extends StatefulWidget {
   DetailsScreen({Key? key}) : super(key: key);
 
+  @override
+  _DetailsScreenState createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
   Future<bool> loadDetails() async {
     return Future.delayed(Duration(milliseconds: 1300), () {
       return true;
     });
   }
 
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
+        controller: _scrollController,
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [

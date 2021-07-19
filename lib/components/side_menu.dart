@@ -29,18 +29,22 @@ class _SideMenuState extends State<SideMenu> {
             children: [
               Container(
                 margin: Responsive.isTablet(context)
-                    ? EdgeInsets.only(top: 20)
+                    ? EdgeInsets.only(top: 25)
                     : Responsive.isMobile(context)
                         ? EdgeInsets.only(top: 50)
                         : EdgeInsets.zero,
                 width: Responsive.isTablet(context) ? 105 : 170,
                 child: Responsive.isTablet(context)
                     ? Image.asset(
-                        "assets/images/logo_small.png",
+                        "assets/images/new_logo.png",
                       )
-                    : Image.asset(
-                        "assets/images/logo_full.png",
-                      ),
+                    : Padding(
+                      padding: const EdgeInsets.only(top: 40),
+                      child: Image.asset(
+                          "assets/images/new_logo_text.png",
+                          isAntiAlias: true,
+                        ),
+                    ),
                 padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 18.0),
               ),
               SizedBox(

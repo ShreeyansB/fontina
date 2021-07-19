@@ -21,7 +21,6 @@ class SearchFilterController extends GetxController {
       family[f] = true;
       if (f != type) family[f] = false;
     }
-    print(family);
   }
 }
 

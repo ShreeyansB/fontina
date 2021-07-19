@@ -18,13 +18,25 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<FontgenFonts> carFonts = [];
+  List<FontgenFonts> latestFonts = [];
   var fontsController = Get.find<FontgenFontsController>();
   late ScrollController _scrollController;
+
+  int sortByDate(FontgenFonts a, FontgenFonts b) {
+    int res = a.dateAdded.compareTo(b.dateAdded)*-1;
+    if (res == 0)
+      return a.family.compareTo(b.family);
+    else
+      return res;
+  }
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    var loadedFonts = fontsController.fonts;
+    loadedFonts.sort((a, b) => sortByDate(a, b));
+    latestFonts = loadedFonts.take(6).toList();
     final random = Random();
     List<int> index = [];
     while (index.length < 3) {
@@ -66,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var size = MediaQuery.of(context).size;
     return SafeArea(
         child: SingleChildScrollView(
-          controller: _scrollController,
+      controller: _scrollController,
       physics: BouncingScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,8 +174,22 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             height: 20,
           ),
-
-          SizedBox(height: 50,)
+          GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: getCrossCount(context, size),
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                childAspectRatio: 2),
+            itemCount: 6,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return LatestFontCard(font: latestFonts[index]);
+            },
+          ),
+          SizedBox(
+            height: 50,
+          )
         ],
       ),
     ));

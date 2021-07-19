@@ -25,6 +25,20 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var _size = MediaQuery.of(context).size;
@@ -32,6 +46,7 @@ class _SearchScreenState extends State<SearchScreen> {
     // Get.to(() => FontDetailsScreen(font: _fontsController.fonts[14]));
     return SafeArea(
       child: SingleChildScrollView(
+        controller: _scrollController,
         physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,9 +122,14 @@ class _SearchScreenState extends State<SearchScreen> {
               runSpacing: 20,
               children: [
                 MyPopupMenu(title: 'Family', options: _fontsController.types),
-                SizedBox(width: 20,),
-                MyPopupMenu(title: 'Weights', options: _fontsController.weights),
-                SizedBox(width: 20,),
+                SizedBox(
+                  width: 20,
+                ),
+                MyPopupMenu(
+                    title: 'Weights', options: _fontsController.weights),
+                SizedBox(
+                  width: 20,
+                ),
                 MyPopupMenu(title: 'Price', options: ["isPaid", "isFree"]),
               ],
             ),
@@ -120,7 +140,9 @@ class _SearchScreenState extends State<SearchScreen> {
               future: loadSearchTable(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return FontsSearchTable(isFav: false,);
+                  return FontsSearchTable(
+                    isFav: false,
+                  );
                 }
                 return Container(
                   width: double.infinity,

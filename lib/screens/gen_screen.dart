@@ -16,10 +16,26 @@ class GenScreen extends StatefulWidget {
 
 class _GenScreenState extends State<GenScreen>
     with SingleTickerProviderStateMixin {
+
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: SingleChildScrollView(
+          controller: _scrollController,
       physics: BouncingScrollPhysics(),
       child: DefaultTabController(
         length: 2,

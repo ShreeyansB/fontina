@@ -91,6 +91,7 @@ class FontgenFontsController extends GetxController {
     Color(0xff81ceb8),
   ];
   List<int> numOfFamilyFiles = [];
+  List<int> numOfFonts = [];
 
   Map<String, Color> colorMap = {
     "other": Color(0xffef7a7a),
@@ -131,6 +132,17 @@ class FontgenFontsController extends GetxController {
           key: (item) => item,
           value: (item) => colors[types.indexOf(item)],
         );
+
+        types.forEach((element) {
+          numOfFonts.add(0);
+        });
+        fonts.forEach((font) {
+          types.forEach((type) {
+            if (font.type == type) {
+              numOfFonts[types.indexOf(type)]++;
+            }
+          });
+        });
         Get.find<SearchFilterController>().initFilters();
         if (!kIsWeb) {
           return await Get.find<StorageController>().saveFonts();
@@ -173,6 +185,18 @@ class FontgenFontsController extends GetxController {
           key: (item) => item,
           value: (item) => colors[types.indexOf(item)],
         );
+
+        types.forEach((element) {
+          numOfFonts.add(0);
+        });
+        fonts.forEach((font) {
+          types.forEach((type) {
+            if (font.type == type) {
+              numOfFonts[types.indexOf(type)]++;
+            }
+          });
+        });
+
         Get.find<FontgenInfoController>().fontgenInfo.value.numFonts =
             fonts.length;
         Get.find<SearchFilterController>().initFilters();
@@ -211,18 +235,6 @@ class FontgenFontsController extends GetxController {
 
   List<Widget> getPieChartIndicator() {
     List<Widget> widgets = [];
-
-    List<int> numOfFonts = [];
-    types.forEach((element) {
-      numOfFonts.add(0);
-    });
-    fonts.forEach((font) {
-      types.forEach((type) {
-        if (font.type == type) {
-          numOfFonts[types.indexOf(type)]++;
-        }
-      });
-    });
 
     for (var i = 0; i < types.length; i++) {
       widgets.add(ChartIndicator(
