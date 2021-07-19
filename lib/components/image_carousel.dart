@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_card_swipper/flutter_card_swiper.dart';
 import 'package:fontina/components/image_viewer.dart';
 import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/screens/font_details_screen.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 import 'package:image_pixels/image_pixels.dart';
@@ -115,5 +116,55 @@ class ImageCarousel extends StatelessWidget {
             },
           ));
     }
+  }
+}
+
+class HomeImageCarousel extends StatelessWidget {
+  const HomeImageCarousel({required this.fonts, Key? key}) : super(key: key);
+
+  final List<FontgenFonts> fonts;
+
+  @override
+  Widget build(BuildContext context) {
+    return Swiper(
+      itemCount: fonts.length,
+      loop: true,
+      autoplay: true,
+      autoplayDelay: 4000,
+      autoplayDisableOnInteraction: true,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () => Get.to(
+            () => FontDetailsScreen(font: fonts[index]),
+            transition: Transition.zoom,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeOutBack,
+          ),
+          child: CachedNetworkImage(
+            imageUrl:
+                "https://fontgen-sb.herokuapp.com/download/${fonts[index].family}-1.png",
+            imageBuilder: (context, imageProvider) => ClipRRect(
+              borderRadius: MyTheme.borderRadius,
+              child: ImagePixels.container(
+                imageProvider: imageProvider,
+                colorAlignment: Alignment.topLeft,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: MyTheme.borderRadius,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            placeholder: (context, url) => SizedBox(
+                height: 100, child: Center(child: CircularProgressIndicator())),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        );
+      },
+    );
   }
 }

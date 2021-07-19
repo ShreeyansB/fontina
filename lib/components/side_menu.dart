@@ -21,7 +21,7 @@ class _SideMenuState extends State<SideMenu> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      elevation: 2.4,
+      elevation: 2,
       child: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(bottom: 30.0),

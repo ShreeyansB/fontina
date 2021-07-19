@@ -86,7 +86,7 @@ class _BaseScreenState extends State<BaseScreen> {
                           : EdgeInsets.only(top: 37, left: 37, right: 37),
                       child: Obx(() => AnimatedSwitcher(
                             duration: Duration(milliseconds: 300),
-                            reverseDuration: Duration(milliseconds: 100),
+                            reverseDuration: Duration(milliseconds: 150),
                             switchInCurve: Curves.easeOutBack,
                             switchOutCurve: Curves.easeIn,
                             transitionBuilder:

@@ -15,6 +15,14 @@ class SearchFilterController extends GetxController {
     price = {'isPaid': true, 'isFree': true};
     print("Filters Init");
   }
+
+  void isolateFilter(String type) {
+    for (var f in family.keys) {
+      family[f] = true;
+      if (f != type) family[f] = false;
+    }
+    print(family);
+  }
 }
 
 class MyPopupMenu extends StatefulWidget {
@@ -79,7 +87,10 @@ class _MyPopupMenuState extends State<MyPopupMenu> {
                   children: [
                     Opacity(
                         opacity: filter[widget.options[index]] ? 1 : 0.27,
-                        child: Icon(Icons.done_rounded, color: MyTheme.textColorSecondary,)),
+                        child: Icon(
+                          Icons.done_rounded,
+                          color: MyTheme.textColorSecondary,
+                        )),
                     SizedBox(
                       width: 10,
                     ),
