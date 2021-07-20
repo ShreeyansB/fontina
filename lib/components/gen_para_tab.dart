@@ -258,8 +258,8 @@ class _ParaGenState extends State<ParaGen> {
             GetBuilder<GenerateController>(
               builder: (controller) {
                 if (controller.paraURL == "") {
-                  return Container(
-                    height: 50,
+                  return SizedBox(
+                    height: 400,
                   );
                 } else {
                   return GestureDetector(

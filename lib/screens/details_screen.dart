@@ -16,7 +16,7 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   Future<bool> loadDetails() async {
-    return Future.delayed(Duration(milliseconds: 1300), () {
+    return Future.delayed(Duration(milliseconds: 900), () {
       return true;
     });
   }

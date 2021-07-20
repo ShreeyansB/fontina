@@ -3,6 +3,7 @@ import 'package:fontina/dependencies/fonts_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/side_navigation_dep.dart';
 import 'package:fontina/screens/font_details_screen.dart';
+import 'package:fontina/util/responsive.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -51,9 +52,11 @@ class CategoryCard extends StatelessWidget {
                     top: 0,
                     left: 0,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 22),
+                      padding: Responsive.isMobile(context)
+                          ? EdgeInsets.only(top: 10, left: 11)
+                          : EdgeInsets.only(top: 20, left: 22),
                       child: Container(
-                        height: constraints.maxHeight - 40,
+                        height: constraints.maxHeight - (Responsive.isMobile(context) ? 20 : 40),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,9 +134,11 @@ class LatestFontCard extends StatelessWidget {
                     top: 0,
                     left: 0,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 22),
+                      padding: Responsive.isMobile(context)
+                          ? EdgeInsets.only(top: 10, left: 11)
+                          : EdgeInsets.only(top: 20, left: 22),
                       child: Container(
-                        height: constraints.maxHeight - 40,
+                        height: constraints.maxHeight - (Responsive.isMobile(context) ? 20 : 40),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,

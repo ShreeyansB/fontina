@@ -153,13 +153,13 @@ class _CodeGenState extends State<CodeGen> {
             GetBuilder<GenerateController>(
               builder: (controller) {
                 if (controller.codeURL == "") {
-                  return Container(
-                    height: 50,
+                  return SizedBox(
+                    height: 400,
                   );
                 } else {
                   return GestureDetector(
-                    onTap: () =>
-                        Get.to(() => ImageViewer(imgURL: generateController.codeURL)),
+                    onTap: () => Get.to(
+                        () => ImageViewer(imgURL: generateController.codeURL)),
                     child: Container(
                       height: Responsive.isMobile(context) ? 300 : 450,
                       width: Responsive.isMobile(context) ? 500 : 700,

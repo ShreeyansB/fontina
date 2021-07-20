@@ -16,7 +16,7 @@ class FavScreen extends StatefulWidget {
 
 class _FavScreenState extends State<FavScreen> {
   Future<bool> loadSearchTable() async {
-    return Future.delayed(Duration(milliseconds: 2000), () {
+    return Future.delayed(Duration(milliseconds: 1200), () {
       return true;
     });
   }

@@ -38,42 +38,40 @@ class _BaseScreenState extends State<BaseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: MyTheme.bgColorLight,
-        drawer: SideMenu(),
-        bottomNavigationBar: Responsive.isMobile(context) ? SalomonBar() : null,
-        body: WillPopScope(
-          onWillPop: onWillPop,
-          child: SafeArea(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!Responsive.isMobile(context)) Expanded(child: SideMenu()),
-                Expanded(
-                    flex: 5,
-                    child: Container(
-                      padding: Responsive.isMobile(context)
-                          ? EdgeInsets.only(top: 18, left: 18, right: 18)
-                          : EdgeInsets.only(top: 37, left: 37, right: 37),
-                      child: Obx(() => AnimatedSwitcher(
-                            duration: Duration(milliseconds: 300),
-                            reverseDuration: Duration(milliseconds: 150),
-                            switchInCurve: Curves.easeOutBack,
-                            switchOutCurve: Curves.easeIn,
-                            transitionBuilder:
-                                (Widget child, Animation<double> animation) {
-                              return ScaleTransition(
-                                child: child,
-                                scale: animation,
-                              );
-                            },
-                            child: Get.find<SideMenuController>().views[
-                                Get.find<SideMenuController>().nav.index.value],
-                          )),
-                    )),
-              ],
-            ),
+    return Scaffold(
+      backgroundColor: MyTheme.bgColorLight,
+      drawer: SideMenu(),
+      bottomNavigationBar: Responsive.isMobile(context) ? SalomonBar() : null,
+      body: WillPopScope(
+        onWillPop: onWillPop,
+        child: SafeArea(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (!Responsive.isMobile(context)) Expanded(child: SideMenu()),
+              Expanded(
+                  flex: 5,
+                  child: Container(
+                    padding: Responsive.isMobile(context)
+                        ? EdgeInsets.only(top: 18, left: 18, right: 18)
+                        : EdgeInsets.only(top: 37, left: 37, right: 37),
+                    child: Obx(() => AnimatedSwitcher(
+                          duration: Duration(milliseconds: 300),
+                          reverseDuration: Duration(milliseconds: 150),
+                          switchInCurve: Curves.easeOutBack,
+                          switchOutCurve: Curves.easeIn,
+                          transitionBuilder:
+                              (Widget child, Animation<double> animation) {
+                            return ScaleTransition(
+                              child: child,
+                              scale: animation,
+                            );
+                          },
+                          child: Get.find<SideMenuController>().views[
+                              Get.find<SideMenuController>().nav.index.value],
+                        )),
+                  )),
+            ],
           ),
         ),
       ),
@@ -93,7 +91,7 @@ class SalomonBar extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
               color: MyTheme.bgColorLight,
-              border: Border.all(color: Colors.black12, width: 1)),
+              border: Border(top: BorderSide(color: Colors.black12, width: 1))),
           child: Obx(
             () => SalomonBottomBar(
               currentIndex: Get.find<SideMenuController>().nav.index.value,

@@ -19,7 +19,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   Future<bool> loadSearchTable() async {
-    return Future.delayed(Duration(milliseconds: 1100), () {
+    return Future.delayed(Duration(milliseconds: 900), () {
       return true;
     });
   }

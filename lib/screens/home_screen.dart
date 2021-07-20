@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       if (size.width > 950) {
         return 3;
-      } else if (size.width > 430) {
+      } else if (size.width > 420) {
         return 2;
       } else {
         return 1;
@@ -109,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           if (!Responsive.isDesktop(context))
             HeaderText(
-              fontSize: 50,
+              fontSize: 40,
             ),
           if (!Responsive.isDesktop(context))
             SizedBox(
