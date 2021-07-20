@@ -59,14 +59,14 @@ class _SplashScreenState extends State<SplashScreen>
           });
           await Future.delayed(Duration(milliseconds: 2000));
           if (result) {
-            Get.to(
+            Get.off(
               () => BaseScreen(),
               transition: Transition.fadeIn,
               duration: Duration(milliseconds: 800),
               curve: Curves.easeOutBack,
             );
           } else {
-            Get.to(
+            Get.off(
               () => NoInternetScreen(),
               transition: Transition.fadeIn,
               duration: Duration(milliseconds: 800),

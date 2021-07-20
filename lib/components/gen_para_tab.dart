@@ -36,7 +36,8 @@ class _ParaGenState extends State<ParaGen> {
             "Font Selector",
             style: MyTheme.cardKey,
           ),
-          content: FontSelectorHead(),
+          content: SingleChildScrollView(
+              physics: BouncingScrollPhysics(), child: FontSelectorHead()),
           actions: [
             OutlinedButton(
                 onPressed: () {
@@ -89,7 +90,8 @@ class _ParaGenState extends State<ParaGen> {
             "Font Selector",
             style: MyTheme.cardKey,
           ),
-          content: FontSelectorSub(),
+          content: SingleChildScrollView(
+              physics: BouncingScrollPhysics(), child: FontSelectorSub()),
           actions: [
             OutlinedButton(
                 onPressed: () {
@@ -125,9 +127,18 @@ class _ParaGenState extends State<ParaGen> {
     );
   }
 
+  ScrollController _controller = ScrollController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: _controller,
       physics: BouncingScrollPhysics(),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
@@ -215,6 +226,9 @@ class _ParaGenState extends State<ParaGen> {
                 generateController.paraURL = generateController.apiURL +
                     "?f1=${generateController.paraFontHead}&w1=${generateController.paraWeightHead}&f2=${generateController.paraFontSub}&w2=${generateController.paraWeightSub}&bg=${generateController.colorToString(generateController.paraBGColor.value)}&fg=${generateController.colorToString(generateController.paraFGColor.value)}";
                 generateController.update();
+                _controller.animateTo(_controller.position.maxScrollExtent,
+                    duration: Duration(milliseconds: 800),
+                    curve: Curves.easeIn);
               },
               style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(Colors.black12),
@@ -282,7 +296,7 @@ class _ParaGenState extends State<ParaGen> {
                 }
               },
             ),
-            SizedBox(height: 50)
+            SizedBox(height: 100)
           ],
         ),
       ),

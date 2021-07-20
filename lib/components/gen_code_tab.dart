@@ -17,6 +17,7 @@ class CodeGen extends StatefulWidget {
 
 class _CodeGenState extends State<CodeGen> {
   var generateController = Get.find<GenerateController>();
+  ScrollController _controller = ScrollController();
 
   Future showFontsDialog(BuildContext context) {
     return showDialog(
@@ -39,8 +40,15 @@ class _CodeGenState extends State<CodeGen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: _controller,
       physics: BouncingScrollPhysics(),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
@@ -113,6 +121,9 @@ class _CodeGenState extends State<CodeGen> {
                 generateController.codeURL = generateController.cApiURL +
                     "?font=${generateController.codeFont}&theme=${generateController.codeTheme}";
                 generateController.update();
+                _controller.animateTo(_controller.position.maxScrollExtent,
+                    duration: Duration(milliseconds: 800),
+                    curve: Curves.easeIn);
               },
               style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(Colors.black12),
@@ -180,7 +191,7 @@ class _CodeGenState extends State<CodeGen> {
                 }
               },
             ),
-            SizedBox(height: 50)
+            SizedBox(height: 100)
           ],
         ),
       ),
