@@ -1,16 +1,20 @@
-# fontina
+# Fontina
 
-A new Flutter project.
+![banner](fontina_banner.png)
 
-## Getting Started
+An which showcases a personally curated collection of fonts. Written in flutter, cross-platform and responsive.
+Uses the [Fontgen API](https://github.com/ShreeyansB/fontgen) to display and pair fonts.
 
-This project is a starting point for a Flutter application.
+## Features
+* Beautiful design
+* Supports multiple platforms
+* View fonts in real-time scenarios
+* Filter fonts by type, weight and price
+* Favourite fonts which you like
+* Caching of data on supported platforms to work offline
 
-A few resources to get you started if this is your first Flutter project:
+## Download
+Download from [Releases](https://github.com/ShreeyansB/fontina/releases)<br>
+Web App available at [fontina.netlify.app](https://fontina.netlify.app/)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+If you encounter any bugs, please open an issue on [fontina/issues](https://github.com/ShreeyansB/fontina/issues).
