@@ -25,6 +25,7 @@ dependencies:
   just_debounce_it: ^4.0.0+2
   like_button: ^2.0.2
   localstorage: ^4.0.0+1
+  salomon_bottom_bar: ^3.1.0
   universal_html: ^2.0.8
   url_launcher: ^6.0.7
 

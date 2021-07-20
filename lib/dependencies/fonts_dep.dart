@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fontina/components/fonts_info_chart.dart';
 import 'package:fontina/dependencies/fontgen_info_dep.dart';
 import 'package:fontina/dependencies/search_filter_dep.dart';
+import 'package:fontina/dependencies/side_navigation_dep.dart';
 import 'package:fontina/dependencies/storage_dep.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -144,6 +145,7 @@ class FontgenFontsController extends GetxController {
           });
         });
         Get.find<SearchFilterController>().initFilters();
+        Get.find<SideMenuController>().isFontLoaded.value = true;
         if (!kIsWeb) {
           return await Get.find<StorageController>().saveFonts();
         } else {
@@ -200,6 +202,7 @@ class FontgenFontsController extends GetxController {
         Get.find<FontgenInfoController>().fontgenInfo.value.numFonts =
             fonts.length;
         Get.find<SearchFilterController>().initFilters();
+        Get.find<SideMenuController>().isFontLoaded.value = true;
         return true;
       }
       return false;
