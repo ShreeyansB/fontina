@@ -34,7 +34,7 @@ class _FontDetailsScreenState extends State<FontDetailsScreen>
   Future<bool> onLikeTap(bool x) {
     var storageController = Get.find<StorageController>();
     if (isFav.value) {
-      storageController.removeFavorite(widget.font);      
+      storageController.removeFavorite(widget.font);
     } else {
       storageController.addFavorite(widget.font);
     }
@@ -82,14 +82,14 @@ class _FontDetailsScreenState extends State<FontDetailsScreen>
         highlightElevation: 0,
         shape: CircleBorder(side: BorderSide(color: Colors.black12, width: 1)),
         child: Obx(() => Padding(
-          padding: const EdgeInsets.only(left: 3),
-          child: LikeButton(
+              padding: const EdgeInsets.only(left: 3),
+              child: LikeButton(
                 size: 20,
                 animationDuration: Duration(milliseconds: 500),
                 isLiked: isFav.value,
                 onTap: onLikeTap,
               ),
-        )),
+            )),
         onPressed: () {},
       ),
       body: SafeArea(
@@ -98,7 +98,9 @@ class _FontDetailsScreenState extends State<FontDetailsScreen>
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Padding(
-              padding: Responsive.isMobile(context) ? EdgeInsets.all(18.0) : EdgeInsets.all(40.0),
+              padding: Responsive.isMobile(context)
+                  ? EdgeInsets.all(18.0)
+                  : EdgeInsets.all(40.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -171,7 +173,10 @@ class _FontDetailsScreenState extends State<FontDetailsScreen>
                         return Container(
                           height: 100,
                           width: 100,
-                          child: Center(child: CircularProgressIndicator()),
+                          child: Center(child: CircularProgressIndicator(
+                            color: Colors.black12,
+                            strokeWidth: 2,
+                          )),
                         );
                       }),
                   SizedBox(height: 20),
@@ -209,10 +214,16 @@ class _FontDetailsScreenState extends State<FontDetailsScreen>
                         return Container(
                           height: 100,
                           width: 100,
-                          child: Center(child: CircularProgressIndicator()),
+                          child: Center(
+                              child: CircularProgressIndicator(
+                            color: Colors.black12,
+                            strokeWidth: 2,
+                          )),
                         );
                       }),
-                      SizedBox(height: 50,)
+                  SizedBox(
+                    height: 50,
+                  )
                 ],
               ),
             ),
@@ -270,9 +281,24 @@ class GenImage extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => SizedBox(
-              height: 100, child: Center(child: CircularProgressIndicator())),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+          placeholder: (context, url) => Container(
+              decoration: BoxDecoration(
+                  borderRadius: MyTheme.borderRadius,
+                  border: Border.all(color: Colors.black12, width: 1)),
+              child: Center(
+                  child: CircularProgressIndicator(
+                color: Colors.black12,
+                strokeWidth: 2,
+              ))),
+          errorWidget: (context, url, error) => Container(
+              decoration: BoxDecoration(
+                  borderRadius: MyTheme.borderRadius,
+                  border: Border.all(color: Colors.black12, width: 1)),
+              child: Center(
+                  child: Icon(
+                Icons.error,
+                color: Colors.black12,
+              ))),
         ),
       ),
     );
@@ -327,9 +353,24 @@ class GenImageCode extends StatelessWidget {
               ),
             ),
           ),
-          placeholder: (context, url) => SizedBox(
-              height: 100, child: Center(child: CircularProgressIndicator())),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+          placeholder: (context, url) => Container(
+              decoration: BoxDecoration(
+                  borderRadius: MyTheme.borderRadius,
+                  border: Border.all(color: Colors.black12, width: 1)),
+              child: Center(
+                  child: CircularProgressIndicator(
+                color: Colors.black12,
+                strokeWidth: 2,
+              ))),
+          errorWidget: (context, url, error) => Container(
+              decoration: BoxDecoration(
+                  borderRadius: MyTheme.borderRadius,
+                  border: Border.all(color: Colors.black12, width: 1)),
+              child: Center(
+                  child: Icon(
+                Icons.error,
+                color: Colors.black12,
+              ))),
         ),
       ),
     );

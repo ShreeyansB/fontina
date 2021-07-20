@@ -91,7 +91,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 width: 60,
                                 height: 60,
                                 child: CircularProgressIndicator(
-                                  strokeWidth: 4.0,
+                                  color: Colors.black12,
+                                  strokeWidth: 2,
                                 ),
                               )),
                             );
@@ -115,7 +116,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                 width: 60,
                                 height: 60,
                                 child: CircularProgressIndicator(
-                                  strokeWidth: 4.0,
+                                  color: Colors.black12,
+                                  strokeWidth: 2,
                                 ),
                               )),
                             );
@@ -138,7 +140,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               width: 60,
                               height: 60,
                               child: CircularProgressIndicator(
-                                strokeWidth: 4.0,
+                                color: Colors.black12,
+                                strokeWidth: 2,
                               ),
                             )),
                           );
@@ -171,7 +174,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               width: 60,
                               height: 60,
                               child: CircularProgressIndicator(
-                                strokeWidth: 4.0,
+                                color: Colors.black12,
+                                strokeWidth: 2,
                               ),
                             )),
                           );

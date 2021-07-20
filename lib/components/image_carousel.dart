@@ -56,10 +56,24 @@ class ImageCarousel extends StatelessWidget {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) => SizedBox(
-                      height: 100,
-                      child: Center(child: CircularProgressIndicator())),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  placeholder: (context, url) => Container(
+                      decoration: BoxDecoration(
+                          borderRadius: MyTheme.borderRadius,
+                          border: Border.all(color: Colors.black12, width: 1)),
+                      child: Center(
+                          child: CircularProgressIndicator(
+                        color: Colors.black12,
+                        strokeWidth: 2,
+                      ))),
+                  errorWidget: (context, url, error) => Container(
+                      decoration: BoxDecoration(
+                          borderRadius: MyTheme.borderRadius,
+                          border: Border.all(color: Colors.black12, width: 1)),
+                      child: Center(
+                          child: Icon(
+                        Icons.error,
+                        color: Colors.black12,
+                      ))),
                 ),
               );
             },
@@ -106,10 +120,26 @@ class ImageCarousel extends StatelessWidget {
                         ),
                       ),
                     ),
-                    placeholder: (context, url) => SizedBox(
-                        height: 100,
-                        child: Center(child: CircularProgressIndicator())),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    placeholder: (context, url) => Container(
+                        decoration: BoxDecoration(
+                            borderRadius: MyTheme.borderRadius,
+                            border:
+                                Border.all(color: Colors.black12, width: 1)),
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          color: Colors.black12,
+                          strokeWidth: 2,
+                        ))),
+                    errorWidget: (context, url, error) => Container(
+                        decoration: BoxDecoration(
+                            borderRadius: MyTheme.borderRadius,
+                            border:
+                                Border.all(color: Colors.black12, width: 1)),
+                        child: Center(
+                            child: Icon(
+                          Icons.error,
+                          color: Colors.black12,
+                        ))),
                   ),
                 ),
               );
@@ -159,9 +189,24 @@ class HomeImageCarousel extends StatelessWidget {
                 ),
               ),
             ),
-            placeholder: (context, url) => SizedBox(
-                height: 100, child: Center(child: CircularProgressIndicator())),
-            errorWidget: (context, url, error) => Icon(Icons.error),
+            placeholder: (context, url) => Container(
+                decoration: BoxDecoration(
+                    borderRadius: MyTheme.borderRadius,
+                    border: Border.all(color: Colors.black12, width: 1)),
+                child: Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.black12,
+                  strokeWidth: 2,
+                ))),
+            errorWidget: (context, url, error) => Container(
+                decoration: BoxDecoration(
+                    borderRadius: MyTheme.borderRadius,
+                    border: Border.all(color: Colors.black12, width: 1)),
+                child: Center(
+                    child: Icon(
+                  Icons.error,
+                  color: Colors.black12,
+                ))),
           ),
         );
       },

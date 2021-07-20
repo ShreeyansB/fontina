@@ -132,7 +132,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     width: 60,
                     height: 60,
                     child: CircularProgressIndicator(
-                      strokeWidth: 4.0,
+                      color: Colors.black12,
+                      strokeWidth: 2,
                     ),
                   )),
                 );

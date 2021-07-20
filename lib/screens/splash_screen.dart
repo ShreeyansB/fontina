@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen>
   );
   late final Animation<Offset> _offsetAnimation = Tween<Offset>(
     begin: Offset.zero,
-    end: const Offset(-1.61, 0.0),
+    end: const Offset(-1.4, 0.0),
   ).animate(CurvedAnimation(
     parent: _controller,
     curve: Curves.easeOutQuart,
@@ -62,14 +62,14 @@ class _SplashScreenState extends State<SplashScreen>
             Get.off(
               () => BaseScreen(),
               transition: Transition.zoom,
-              duration: Duration(milliseconds: 900),
+              duration: Duration(milliseconds: 500),
               curve: Curves.easeOutQuad,
             );
           } else {
             Get.off(
               () => NoInternetScreen(),
               transition: Transition.zoom,
-              duration: Duration(milliseconds: 900),
+              duration: Duration(milliseconds: 500),
               curve: Curves.easeOutBack,
             );
           }
@@ -118,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 70),
                       child: AnimatedOpacity(
                         opacity: _textOpacity,
                         curve: Curves.easeIn,
@@ -153,10 +153,12 @@ class _SplashScreenState extends State<SplashScreen>
                             width: 40,
                             child: AnimatedTextKit(
                               repeatForever: true,
+                              pause: Duration(milliseconds: 400),
                               animatedTexts: [
-                                TyperAnimatedText("."),
-                                TyperAnimatedText(".."),
-                                TyperAnimatedText("..."),
+                                // TyperAnimatedText("."),
+                                // TyperAnimatedText(".."),
+                                TyperAnimatedText("...",
+                                    speed: Duration(milliseconds: 400)),
                               ],
                             ),
                           ),
@@ -180,10 +182,12 @@ class _SplashScreenState extends State<SplashScreen>
                             width: 40,
                             child: AnimatedTextKit(
                               repeatForever: true,
+                              pause: Duration(milliseconds: 400),
                               animatedTexts: [
-                                TyperAnimatedText("."),
-                                TyperAnimatedText(".."),
-                                TyperAnimatedText("..."),
+                                // TyperAnimatedText("."),
+                                // TyperAnimatedText(".."),
+                                TyperAnimatedText("...",
+                                    speed: Duration(milliseconds: 400)),
                               ],
                             ),
                           ),

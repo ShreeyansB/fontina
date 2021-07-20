@@ -23,6 +23,7 @@ class _SideMenuState extends State<SideMenu> {
     return Drawer(
       elevation: 2,
       child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.only(bottom: 30.0),
           child: Column(

@@ -23,7 +23,7 @@ class _FavScreenState extends State<FavScreen> {
 
   late ScrollController _scrollController;
 
-    @override
+  @override
   void initState() {
     _scrollController = ScrollController();
     super.initState();
@@ -108,7 +108,8 @@ class _FavScreenState extends State<FavScreen> {
                     width: 60,
                     height: 60,
                     child: CircularProgressIndicator(
-                      strokeWidth: 4.0,
+                      color: Colors.black12,
+                      strokeWidth: 2,
                     ),
                   )),
                 );
