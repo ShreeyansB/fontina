@@ -8,6 +8,7 @@ import 'package:fontina/dependencies/search_filter_dep.dart';
 import 'package:fontina/dependencies/search_textfield_dep.dart';
 import 'package:fontina/dependencies/storage_dep.dart';
 import 'package:fontina/screens/base_screen.dart';
+import 'package:fontina/screens/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
               shape: BoxShape.rectangle),
         ),
       ),
-      home: BaseScreen(),
+      home: SplashScreen(),
     );
   }
 }
