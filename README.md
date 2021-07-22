@@ -13,6 +13,8 @@ Uses the [Fontgen API](https://github.com/ShreeyansB/fontgen) to display and pai
 * Favourite fonts which you like
 * Caching of data on supported platforms to work offline
 
+> Price of a font indicates if it is free or not for commercial use. Some fonts may be free for personal use.
+
 ## Download
 Download from [Releases](https://github.com/ShreeyansB/fontina/releases)<br>
 Web App available at [fontina.netlify.app](https://sh-ort.app/tue2h)
