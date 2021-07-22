@@ -111,8 +111,9 @@ class FontDetailsCard extends StatelessWidget {
                     GestureDetector(
                       onTap: () => _launchURL(font.url),
                       child: Text(
-                        size.width > 700 ? font.url : "Link",
+                        size.width > 700 ? (font.url.length > 48 ? font.url.substring(0,48) + "..." : font.url) : "Link",
                         style: MyTheme.cardValue,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

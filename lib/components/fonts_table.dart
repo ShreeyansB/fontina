@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:fontina/dependencies/fonts_dep.dart';
+import 'package:fontina/screens/font_details_screen.dart';
 import 'package:fontina/util/theme.dart';
 import 'package:get/get.dart';
 
@@ -60,34 +61,40 @@ class FontsDataTable extends StatelessWidget {
       loadedFonts = loadedFonts.reversed.toList();
       loadedFonts = loadedFonts.sublist(0, 8);
       loadedFonts.forEach((font) {
-        dataRows.add(DataRow(cells: [
-          DataCell(Row(
-            children: [
-              Container(
-                width: 8.0,
-                margin: EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: _fontgenFontsController.colorMap.length == 1
-                      ? _fontgenFontsController.colorMap["others"]
-                      : _fontgenFontsController.colorMap[font.type],
-                  borderRadius: MyTheme.borderRadius,
+        dataRows.add(DataRow(
+          cells: [
+            DataCell(Row(
+              children: [
+                Container(
+                  width: 8.0,
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: _fontgenFontsController.colorMap.length == 1
+                        ? _fontgenFontsController.colorMap["others"]
+                        : _fontgenFontsController.colorMap[font.type],
+                    borderRadius: MyTheme.borderRadius,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(font.family),
-            ],
-          )),
-          DataCell(Text(font.type)),
-          DataCell(Text(font.weights.length.toString())),
-          DataCell(Text(font.dateAdded
-              .toString()
-              .substring(0, font.dateAdded.toString().length - 5))),
-        ],
-        onSelectChanged: (value) {
-          print(font.family);
-        },
+                SizedBox(
+                  width: 10,
+                ),
+                Text(font.family),
+              ],
+            )),
+            DataCell(Text(font.type)),
+            DataCell(Text(font.weights.length.toString())),
+            DataCell(Text(font.dateAdded
+                .toString()
+                .substring(0, font.dateAdded.toString().length - 5))),
+          ],
+          onSelectChanged: (value) {
+            Get.to(
+              () => FontDetailsScreen(font: font),
+              transition: Transition.zoom,
+              duration: Duration(milliseconds: 340),
+              curve: Curves.easeOutBack,
+            );
+          },
         ));
       });
     }
@@ -115,7 +122,7 @@ class FontsDataTable extends StatelessWidget {
       );
     } else {
       return SingleChildScrollView(
-        physics: BouncingScrollPhysics() ,
+        physics: BouncingScrollPhysics(),
         scrollDirection: Axis.horizontal,
         child: DataTable(
           showCheckboxColumn: false,

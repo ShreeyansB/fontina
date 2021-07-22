@@ -173,7 +173,8 @@ class _FontDetailsScreenState extends State<FontDetailsScreen>
                         return Container(
                           height: 100,
                           width: 100,
-                          child: Center(child: CircularProgressIndicator(
+                          child: Center(
+                              child: CircularProgressIndicator(
                             color: Colors.black12,
                             strokeWidth: 2,
                           )),
@@ -274,7 +275,7 @@ class GenImage extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: imageProvider,
-                    fit: BoxFit.fitHeight,
+                    fit: BoxFit.contain,
                     colorFilter: ColorFilter.mode(
                         isDark ? Color(0xffFDCFF3) : Color(0xff413D5D),
                         BlendMode.srcATop)),
@@ -282,6 +283,7 @@ class GenImage extends StatelessWidget {
             ),
           ),
           placeholder: (context, url) => Container(
+              height: 100,
               decoration: BoxDecoration(
                   borderRadius: MyTheme.borderRadius,
                   border: Border.all(color: Colors.black12, width: 1)),
@@ -347,13 +349,14 @@ class GenImageCode extends StatelessWidget {
                   borderRadius: MyTheme.borderRadius,
                   image: DecorationImage(
                     image: imageProvider,
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
             ),
           ),
           placeholder: (context, url) => Container(
+              height: 100,
               decoration: BoxDecoration(
                   borderRadius: MyTheme.borderRadius,
                   border: Border.all(color: Colors.black12, width: 1)),

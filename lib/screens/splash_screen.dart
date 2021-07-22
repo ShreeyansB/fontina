@@ -62,15 +62,15 @@ class _SplashScreenState extends State<SplashScreen>
             Get.off(
               () => BaseScreen(),
               transition: Transition.zoom,
-              duration: Duration(milliseconds: 500),
+              duration: Duration(milliseconds: 400),
               curve: Curves.easeOutQuad,
             );
           } else {
             Get.off(
               () => NoInternetScreen(),
               transition: Transition.zoom,
-              duration: Duration(milliseconds: 500),
-              curve: Curves.easeOutBack,
+              duration: Duration(milliseconds: 400),
+              curve: Curves.easeOutQuad,
             );
           }
         });

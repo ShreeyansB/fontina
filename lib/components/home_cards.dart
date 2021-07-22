@@ -56,7 +56,8 @@ class CategoryCard extends StatelessWidget {
                           ? EdgeInsets.only(top: 10, left: 11)
                           : EdgeInsets.only(top: 20, left: 22),
                       child: Container(
-                        height: constraints.maxHeight - (Responsive.isMobile(context) ? 20 : 40),
+                        height: constraints.maxHeight -
+                            (Responsive.isMobile(context) ? 20 : 40),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +139,8 @@ class LatestFontCard extends StatelessWidget {
                           ? EdgeInsets.only(top: 10, left: 11)
                           : EdgeInsets.only(top: 20, left: 22),
                       child: Container(
-                        height: constraints.maxHeight - (Responsive.isMobile(context) ? 20 : 40),
+                        height: constraints.maxHeight -
+                            (Responsive.isMobile(context) ? 20 : 40),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +149,7 @@ class LatestFontCard extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  font.family,
+                                  font.family.length > 15 ? font.family.substring(0,15) + "..." : font.family,
                                   style: MyTheme.cardKey.copyWith(
                                       fontSize: constraints.maxHeight * 0.18,
                                       fontWeight: FontWeight.w800),
@@ -156,7 +158,7 @@ class LatestFontCard extends StatelessWidget {
                                   height: constraints.maxHeight * 0.02,
                                 ),
                                 Text(
-                                  "by ${font.foundry}",
+                                  "by ${font.foundry.length > 25 ? font.foundry.substring(0,25) + "..." : font.foundry}",
                                   style: MyTheme.cardKey.copyWith(
                                       fontSize: constraints.maxHeight * 0.09,
                                       fontWeight: FontWeight.w800),
